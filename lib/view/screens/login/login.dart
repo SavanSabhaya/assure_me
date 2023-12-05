@@ -1,7 +1,9 @@
 import 'package:assure_me/api_%20service/service.dart';
 import 'package:assure_me/routes/routes.dart';
+import 'package:assure_me/view/screens/login/login_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:roundcheckbox/roundcheckbox.dart';
@@ -19,20 +21,21 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  TextEditingController emailAddress=TextEditingController();
+  TextEditingController password=TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
   bool _showPassword = false;
+  
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
-  }
-
-  Future<dynamic> getData() async {
-    final response = await ApiHelper().getData('api/');
-    print("get data from api in log in======>>>>>>$response");
+    emailAddress.text="raj@gmail.com";
+    password.text='Test@123';
   }
 
   @override
@@ -86,6 +89,7 @@ class _LogInState extends State<LogIn> {
                         child: Container(
                           margin: EdgeInsets.only(top: 8),
                           child: TextFormField(
+                            controller: emailAddress,
                             autofocus: false,
                             style: TextStyle(fontSize: 19.0, color: blackColor),
                             decoration: InputDecoration(
@@ -125,7 +129,7 @@ class _LogInState extends State<LogIn> {
                           children: [
                             Container(
                               margin: EdgeInsets.only(top: 8),
-                              child: TextFormField(
+                              child: TextFormField(controller: password,
                                 autofocus: false,
                                 style: TextStyle(
                                     fontSize: 19.0, color: blackColor),
@@ -208,8 +212,9 @@ class _LogInState extends State<LogIn> {
                               width: scWidth,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, AppRoutes.homepage);
+                                LoginController().loginApi(emailAddress: emailAddress.text,password:password.text,context:context,setState:  setState);
+                                 /*  Navigator.pushNamed(
+                                      context, AppRoutes.homepage); */
                                 },
                                 child: Text(
                                   'LogIn',
