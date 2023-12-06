@@ -57,5 +57,4 @@ class MySharedPref {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key, json.encode(model.toJson()));
   }
-
 }

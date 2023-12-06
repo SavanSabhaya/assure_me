@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:assure_me/api_%20service/api_constant.dart';
 import 'package:assure_me/api_%20service/service.dart';
+import 'package:assure_me/routes/routes.dart';
 import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
 import 'package:assure_me/view/screens/login/login_model.dart';
@@ -7,38 +10,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:logger/logger.dart';
 
-class LoginController {
-LoginModel? loginModel;
+String tokens = '';
 
- loginApi({required String emailAddress,required String password,BuildContext? context, setState}) async {
- 
+class LoginController {
+  LoginModel? loginModel;
+
   var preferences = MySharedPref();
   final apiReq = NetworkApiService();
-  String url =ApiConstant.BASE_URL+ApiConstant.login;
-  Map<String,dynamic> params = {
-    'email': emailAddress,
-    'password': password,
-  };
+  loginApi(
+      {required String emailAddress,
+      required String password,
+      BuildContext? context,
+      setState}) async {
+    String url = ApiConstant.BASE_URL + ApiConstant.login;
+    Map<String, String> params = {
+      'email': emailAddress,
+      'password': password,
+    };
+    EasyLoading.show();
 
-  await apiReq.getPostApiResponse(url:url ,data: params,isHeader: true).then((value) async {
-      EasyLoading.show();
-    try {
-      if (value['status_code'] == 200) {
-        setState((){
-        loginModel=LoginModel.fromJson(value);
-          Logger().d(loginModel);
-           EasyLoading.dismiss();
-        });
-       
-      } else {
-       
+    await apiReq
+        .getPostApiResponse(url: url, data: jsonEncode(params), isHeader: true)
+        .then((value) async {
+      try {
+        if (value['status_code'] == 200) {
+          EasyLoading.dismiss();
+          loginModel = LoginModel.fromJson(value);
+          tokens = loginModel?.data?.token ?? '';
+          preferences.setString(
+              SharePreData.keytoken, loginModel?.data?.token.toString() ?? '');
+          Logger().d(loginModel?.data?.token);
+          Navigator.pushNamed(context!, AppRoutes.homepage);
+        }
+      } catch (e) {
+        print(e);
       }
-    } catch (e) {
-     
-      print(e);
-    }
-  });
-}
-
-  
+    });
+  }
 }

@@ -2,7 +2,6 @@ import 'package:assure_me/constant.dart';
 import 'package:assure_me/view/screens/dashboard/main_menu_detail/store_name_detail.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:roundcheckbox/roundcheckbox.dart';
 

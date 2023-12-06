@@ -3,7 +3,6 @@ import 'package:assure_me/view/screens/reports/report_send.dart';
 import 'package:assure_me/view/screens/reports_detail/genrate_report.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:roundcheckbox/roundcheckbox.dart';
 
@@ -159,8 +158,10 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                             padding: EdgeInsets.all(15),
                             child: GestureDetector(
                               onTap: () {
-                                  Navigator.push(
-            context, MaterialPageRoute(builder: (context) => GenrateReport()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => GenrateReport()));
                               },
                               child: Text(
                                 "Edit Values",
@@ -285,8 +286,10 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                             width: scWidth,
                             child: ElevatedButton(
                               onPressed: () {
-                                  Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ReportSend()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ReportSend()));
                               },
                               child: Text(
                                 'Genrate Report',

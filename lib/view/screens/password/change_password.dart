@@ -1,7 +1,6 @@
 import 'package:assure_me/view/screens/password/new_password.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:roundcheckbox/roundcheckbox.dart';
 
@@ -128,8 +127,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 width: scWidth,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                      Navigator.push(
-            context, MaterialPageRoute(builder: (context) => NewPassword()));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                NewPassword()));
                                   },
                                   child: Text(
                                     'Next',

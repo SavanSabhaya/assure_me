@@ -5,7 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as dio;
 import 'package:http/http.dart' as http;
-
+import 'package:logger/logger.dart';
 
 class SharePreData {
   static String keyLoginModel = "login_model";
@@ -13,15 +13,10 @@ class SharePreData {
   static String keytoken = "key_SaveToken";
 }
 
-
-
 // ignore_for_file: file_names
 
-
-
-
 //main methods for api
-class NetworkApiService  {
+class NetworkApiService {
   @override
   Future getGetApiResponse(String url) async {
     dynamic responseJson;
@@ -40,20 +35,23 @@ class NetworkApiService  {
   @override
   Future<dynamic> getPostApiResponse(
       {required String url, required dynamic data, dynamic isHeader}) async {
-    print('API : ' + url.toString());
+    Logger().d('API : ' + url.toString());
+    Logger().d('API : ' + data);
+
     try {
       Response? response;
       isHeader != null && isHeader
           ? response = await post(
               Uri.parse(url),
-              body: jsonEncode(data),
+              body: data,
               headers: {HttpHeaders.contentTypeHeader: "application/json"},
             )
           : response = await post(
               Uri.parse(url),
-              body: jsonEncode(data),
+              body: data,
             );
-      print('returnResponseData ::: ' + returnResponse(response).toString());
+      Logger()
+          .d('returnResponseData ::: ' + returnResponse(response).toString());
       return returnResponse(response);
     } on SocketException {
       // throw FetchDataException('No Internet Connection');
@@ -107,7 +105,7 @@ class NetworkApiService  {
   }
 
   dynamic returnResponse(dio.Response response) {
-    print('returnResponse ::: ' + response.statusCode.toString());
+    Logger().d('returnResponse ::: ' + response.statusCode.toString());
     switch (response.statusCode) {
       case 200:
         dynamic responseJson = jsonDecode(response.body);
@@ -124,7 +122,7 @@ class NetworkApiService  {
         throw UnauthorisedException(response.body.toString()); */
       default:
         throw EasyLoading.show(indicator: Text("${response.statusCode}"));
-            // 'Error accured while communicating with serverwith status code${response.statusCode}');
+      // 'Error accured while communicating with serverwith status code${response.statusCode}');
     }
   }
 }

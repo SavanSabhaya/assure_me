@@ -1,6 +1,6 @@
+import 'package:assure_me/view/screens/password/password_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:roundcheckbox/roundcheckbox.dart';
 
@@ -16,6 +16,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
   String _email = '';
 
   @override
@@ -74,6 +75,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           child: Container(
                             margin: EdgeInsets.only(top: 8),
                             child: TextFormField(
+                              controller: emailController,
                               autofocus: false,
                               style:
                                   TextStyle(fontSize: 19.0, color: blackColor),
@@ -121,7 +123,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     borderRadius: BorderRadius.circular(50)),
                                 width: scWidth,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    PasswordController().forgotPasswordApi(
+                                        emailAddress: emailController.text);
+                                  },
                                   child: Text(
                                     'Next',
                                     style: TextStyle(

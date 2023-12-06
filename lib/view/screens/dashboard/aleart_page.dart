@@ -2,7 +2,6 @@ import 'package:assure_me/constant.dart';
 import 'package:assure_me/view/screens/reports_detail/edit_values.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:roundcheckbox/roundcheckbox.dart';
 
@@ -82,8 +81,8 @@ class AlertCard extends StatelessWidget {
       margin: EdgeInsets.only(top: 10),
       child: ElevatedButton(
         onPressed: () {
-            Navigator.push(
-            context, MaterialPageRoute(builder: (context) => EditValues()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => EditValues()));
         },
         style: ElevatedButton.styleFrom(
             elevation: 0,

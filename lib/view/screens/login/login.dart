@@ -1,14 +1,18 @@
+import 'package:assure_me/api_%20service/api_constant.dart';
 import 'package:assure_me/api_%20service/service.dart';
 import 'package:assure_me/routes/routes.dart';
+import 'package:assure_me/utils/prefrence_utils.dart';
+import 'package:assure_me/utils/share_pref.dart';
 import 'package:assure_me/view/screens/login/login_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:logger/logger.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
 
-import 'dart:io' show Platform;
+import 'dart:io' show HttpHeaders, Platform;
 import '../../../constant.dart';
 import 'dart:convert';
 
@@ -21,21 +25,61 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
-  TextEditingController emailAddress=TextEditingController();
-  TextEditingController password=TextEditingController();
+  TextEditingController emailAddress = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
   bool _showPassword = false;
-  
+  MySharedPref preferences = MySharedPref();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    emailAddress.text="raj@gmail.com";
-    password.text='Test@123';
+    emailAddress.text = "shwetag@gmail.com";
+    password.text = 'Test@123';
+
+    preferences.getStringValue(SharePreData.keytoken).then((token) {
+      // setState(() {
+      print('=====> get token $token');
+      // });
+    });
+  }
+
+  loginApi(
+      {required String emailAddress,
+      required String password,
+      setState}) async {
+    var preferences = MySharedPref();
+    final apiReq = NetworkApiService();
+    String url = ApiConstant.BASE_URL + ApiConstant.login;
+    Map<String, dynamic> params = {
+      'email': emailAddress,
+      'password': password,
+    };
+    Logger().d(jsonEncode(params));
+
+    Response response = await apiReq.getPostApiResponse(
+        url: url, data: jsonEncode(params), isHeader: false);
+    /*  .then((value) {
+      // EasyLoading.show();
+      try {
+        if (value['status_code'] == 200) {
+          setState(() {
+            loginModel = LoginModel.fromJson(value);
+            Logger().d(loginModel);
+
+            // EasyLoading.dismiss();
+          });
+        } else {}
+      } catch (e) {
+        print(e);
+      }
+    }); */
+
+    Logger().d(response.body);
+    Logger().d(response.statusCode);
   }
 
   @override
@@ -129,7 +173,8 @@ class _LogInState extends State<LogIn> {
                           children: [
                             Container(
                               margin: EdgeInsets.only(top: 8),
-                              child: TextFormField(controller: password,
+                              child: TextFormField(
+                                controller: password,
                                 autofocus: false,
                                 style: TextStyle(
                                     fontSize: 19.0, color: blackColor),
@@ -212,9 +257,14 @@ class _LogInState extends State<LogIn> {
                               width: scWidth,
                               child: ElevatedButton(
                                 onPressed: () {
-                                LoginController().loginApi(emailAddress: emailAddress.text,password:password.text,context:context,setState:  setState);
-                                 /*  Navigator.pushNamed(
-                                      context, AppRoutes.homepage); */
+                                  print('tap sucess===>>>');
+
+                                  // setState(() {
+                                  LoginController().loginApi(
+                                      emailAddress: emailAddress.text,
+                                      password: password.text,
+                                      context: context);
+                                  // });
                                 },
                                 child: Text(
                                   'LogIn',
