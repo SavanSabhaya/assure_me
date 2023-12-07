@@ -6,6 +6,7 @@ import 'package:assure_me/routes/routes.dart';
 import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
 import 'package:assure_me/view/screens/login/login_model.dart';
+import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:logger/logger.dart';
@@ -33,7 +34,7 @@ class LoginController {
         .getPostApiResponse(url: url, data: jsonEncode(params), isHeader: true)
         .then((value) async {
       try {
-        if (value['status_code'] == 200) {
+        if (value['success'] == true) {
           EasyLoading.dismiss();
           loginModel = LoginModel.fromJson(value);
           tokens = loginModel?.data?.token ?? '';
@@ -41,6 +42,9 @@ class LoginController {
               SharePreData.keytoken, loginModel?.data?.token.toString() ?? '');
           Logger().d(loginModel?.data?.token);
           Navigator.pushNamed(context!, AppRoutes.homepage);
+        } else {
+          EasyLoading.dismiss();
+          awesomeTopSnackbar(context!, value['message']);
         }
       } catch (e) {
         print(e);

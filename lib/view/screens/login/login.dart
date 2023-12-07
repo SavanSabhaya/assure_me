@@ -37,13 +37,11 @@ class _LogInState extends State<LogIn> {
   @override
   void initState() {
     super.initState();
-    emailAddress.text = "shwetag@gmail.com";
+    emailAddress.text = "savansabhaya111@gmail.com";
     password.text = 'Test@123';
 
     preferences.getStringValue(SharePreData.keytoken).then((token) {
-      // setState(() {
       print('=====> get token $token');
-      // });
     });
   }
 

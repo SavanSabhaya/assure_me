@@ -18,6 +18,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   String _email = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    emailController.text = "savansabhaya111@gmail.com";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +131,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 child: ElevatedButton(
                                   onPressed: () {
                                     PasswordController().forgotPasswordApi(
-                                        emailAddress: emailController.text);
+                                      emailAddress: emailController.text,
+                                      context: context,
+                                    );
                                   },
                                   child: Text(
                                     'Next',

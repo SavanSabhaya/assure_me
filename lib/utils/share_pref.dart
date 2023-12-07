@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart';
@@ -17,6 +18,7 @@ class SharePreData {
 
 //main methods for api
 class NetworkApiService {
+  var preferences = MySharedPref();
   @override
   Future getGetApiResponse(String url) async {
     dynamic responseJson;
@@ -62,17 +64,29 @@ class NetworkApiService {
   Future<dynamic> getPostApiTokenResponse({
     required String url,
     dynamic data,
-    required String token,
   }) async {
-    final Map<String, String> headers = {
-      "Authorization": "Bearer $token ",
-    };
+    var gettoken;
+    Map<String, String> headers = {};
+    preferences.getStringValue(SharePreData.keytoken).then((token) {
+      // if (token != null) {
+      //   // headers['Authorization'] = token;
+      //   print('=====> get token api service $token');
+      // }
+      headers.addAll({
+        HttpHeaders.contentTypeHeader: 'application/json',
+        "Authorization": "$token",
+      });
+    });
+
+    // final Map<String, String> headers = {
+    //   "Authorization": "Bearer $gettoken ",
+    // };
     print('API : ' + url.toString());
     try {
       Response response = await post(
         headers: headers,
         Uri.parse(url),
-        body: data,
+        body: data == null ? null : data,
       );
       print('returnResponseData ::: ' + returnResponse(response).toString());
       return returnResponse(response);

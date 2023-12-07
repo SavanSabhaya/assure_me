@@ -1,3 +1,4 @@
+import 'package:assure_me/view/screens/password/password_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +16,7 @@ class OtpCode extends StatefulWidget {
 
 class _OtpCodeState extends State<OtpCode> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController otpController = TextEditingController();
   String _email = '';
 
   @override
@@ -73,6 +75,7 @@ class _OtpCodeState extends State<OtpCode> {
                           child: Container(
                             margin: EdgeInsets.only(top: 8),
                             child: TextFormField(
+                              controller: otpController,
                               autofocus: false,
                               style:
                                   TextStyle(fontSize: 19.0, color: blackColor),
@@ -120,7 +123,11 @@ class _OtpCodeState extends State<OtpCode> {
                                     borderRadius: BorderRadius.circular(50)),
                                 width: scWidth,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    PasswordController().otpVerify(
+                                        otpCode: otpController.text,
+                                        context: context);
+                                  },
                                   child: Text(
                                     'Next',
                                     style: TextStyle(

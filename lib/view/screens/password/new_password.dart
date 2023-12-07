@@ -1,4 +1,6 @@
 import 'package:assure_me/view/screens/dashboard/home_page.dart';
+import 'package:assure_me/view/screens/password/password_controller.dart';
+import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +22,8 @@ class _NewPasswordState extends State<NewPassword> {
   String _confpass = '';
   bool _showPassword = false;
   bool _showConfPassword = false;
+  TextEditingController newPassword = TextEditingController();
+  TextEditingController confirmpassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +70,7 @@ class _NewPasswordState extends State<NewPassword> {
                         Container(
                           margin: EdgeInsets.only(top: 20),
                           child: TextFormField(
+                            controller: newPassword,
                             autofocus: false,
                             style: TextStyle(fontSize: 19.0, color: blackColor),
                             decoration: InputDecoration(
@@ -113,6 +118,8 @@ class _NewPasswordState extends State<NewPassword> {
                         Container(
                           margin: EdgeInsets.only(top: 20),
                           child: TextFormField(
+                            controller: confirmpassword,
+
                             autofocus: false,
                             style: TextStyle(fontSize: 19.0, color: blackColor),
                             decoration: InputDecoration(
@@ -172,10 +179,20 @@ class _NewPasswordState extends State<NewPassword> {
                                 width: scWidth,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => HomePage()));
+                                    if (confirmpassword.text !=
+                                        newPassword.text) {
+                                      awesomeTopSnackbar(
+                                          context, "Password doesn'\t match ");
+                                    } else {
+                                      PasswordController().resetPassword(
+                                          password: confirmpassword.text,
+                                          context: context);
+                                    }
+
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) => HomePage()));
                                   },
                                   child: Text(
                                     'Next',

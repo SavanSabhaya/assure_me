@@ -44,6 +44,7 @@ dependencies:
   logger: ^2.0.2+1
   shared_preferences: ^2.2.2
   flutter_easyloading: ^3.0.5
+  awesome_top_snackbar: ^0.0.3
   
 
 dev_dependencies:

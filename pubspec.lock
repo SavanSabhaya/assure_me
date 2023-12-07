@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  awesome_top_snackbar:
+    dependency: "direct main"
+    description:
+      name: awesome_top_snackbar
+      sha256: a766c4894375a084274a58390b2ee7010ce15dda9bf33c3fac4b9d9c6cbe8582
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   boolean_selector:
     dependency: transitive
     description:

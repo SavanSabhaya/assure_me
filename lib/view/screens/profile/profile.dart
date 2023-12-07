@@ -1,5 +1,9 @@
+import 'package:assure_me/utils/prefrence_utils.dart';
+import 'package:assure_me/utils/share_pref.dart';
 import 'package:assure_me/view/screens/password/change_password.dart';
+import 'package:assure_me/view/screens/password/password_controller.dart';
 import 'package:assure_me/view/screens/profile/news.dart';
+import 'package:assure_me/view/screens/profile/profile_controller.dart';
 import 'package:assure_me/view/screens/profile/profile_edit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +22,17 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
+  var preferences = MySharedPref();
   String _fname = '';
   String _lname = '';
   String _email = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    ProfileController().profile();
+  }
 
   @override
   Widget build(BuildContext context) {
