@@ -1,5 +1,8 @@
+import 'package:assure_me/view/screens/dashboard/dashbord_controller.dart';
 import 'package:assure_me/view/screens/dashboard/home_page.dart';
+import 'package:assure_me/view/screens/dashboard/model/deviceList_model.dart';
 import 'package:assure_me/view/screens/reports/success_value.dart';
+import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +13,8 @@ import '../../../constant.dart';
 import 'dart:convert';
 
 class EditValues extends StatefulWidget {
+  DatumTemp? data;
+  EditValues({this.data});
   static const routeName = '/EditValues';
   @override
   State<EditValues> createState() => _EditValuesState();
@@ -17,9 +22,25 @@ class EditValues extends StatefulWidget {
 
 class _EditValuesState extends State<EditValues> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController targetTempController = TextEditingController();
+  TextEditingController maxTempController = TextEditingController();
+  TextEditingController minTempController = TextEditingController();
+
   String _fname = '';
   String _lname = '';
   String _email = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      print('get temp======>>>>${widget.data?.deviceMaxTemperature}');
+      // targetTempController;
+      maxTempController.text = widget.data?.deviceMaxTemperature ?? '';
+      minTempController.text = widget.data?.deviceMinTemperature ?? '';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,59 +114,60 @@ class _EditValuesState extends State<EditValues> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Traget temperature",
-                                style: TextStyle(
-                                    color: blackColor,
-                                    fontSize: smFontSize,
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.left,
-                              ),
-                              Text(
-                                "Enter the traget temperature in *C",
-                                style: TextStyle(
-                                    color: blackColor,
-                                    fontSize: dfFontSize,
-                                    fontWeight: FontWeight.w400),
-                                textAlign: TextAlign.left,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 8),
-                                child: TextFormField(
-                                  autofocus: false,
-                                  style: TextStyle(
-                                      fontSize: 19.0, color: blackColor),
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    hintText: "25",
-                                    hintStyle: TextStyle(color: drakGreyColor),
-                                    fillColor: lightGrey,
-                                    contentPadding: const EdgeInsets.all(16),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.white),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.white),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter your first name';
-                                    }
-                                    return null;
-                                  },
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _fname = value.trim();
-                                    });
-                                  },
-                                ),
-                              ),
+                              // Text(
+                              //   "Traget temperature",
+                              //   style: TextStyle(
+                              //       color: blackColor,
+                              //       fontSize: smFontSize,
+                              //       fontWeight: FontWeight.bold),
+                              //   textAlign: TextAlign.left,
+                              // ),
+                              // Text(
+                              //   "Enter the traget temperature in *C",
+                              //   style: TextStyle(
+                              //       color: blackColor,
+                              //       fontSize: dfFontSize,
+                              //       fontWeight: FontWeight.w400),
+                              //   textAlign: TextAlign.left,
+                              // ),
+                              // Container(
+                              //   margin: EdgeInsets.only(top: 8),
+                              //   child: TextFormField(
+                              //     controller: targetTempController,
+                              //     autofocus: false,
+                              //     style: TextStyle(
+                              //         fontSize: 19.0, color: blackColor),
+                              //     decoration: InputDecoration(
+                              //       filled: true,
+                              //       hintText: "25",
+                              //       hintStyle: TextStyle(color: drakGreyColor),
+                              //       fillColor: lightGrey,
+                              //       contentPadding: const EdgeInsets.all(16),
+                              //       focusedBorder: OutlineInputBorder(
+                              //         borderSide:
+                              //             BorderSide(color: Colors.white),
+                              //         borderRadius: BorderRadius.circular(5),
+                              //       ),
+                              //       enabledBorder: UnderlineInputBorder(
+                              //         borderSide:
+                              //             BorderSide(color: Colors.white),
+                              //         borderRadius: BorderRadius.circular(5),
+                              //       ),
+                              //     ),
+                              //     keyboardType: TextInputType.emailAddress,
+                              //     validator: (value) {
+                              //       if (value!.isEmpty) {
+                              //         return 'Please enter your first name';
+                              //       }
+                              //       return null;
+                              //     },
+                              //     onChanged: (value) {
+                              //       setState(() {
+                              //         _fname = value.trim();
+                              //       });
+                              //     },
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -176,6 +198,7 @@ class _EditValuesState extends State<EditValues> {
                               Container(
                                 margin: EdgeInsets.only(top: 8),
                                 child: TextFormField(
+                                  controller: maxTempController,
                                   autofocus: false,
                                   style: TextStyle(
                                       fontSize: 19.0, color: blackColor),
@@ -240,6 +263,7 @@ class _EditValuesState extends State<EditValues> {
                               Container(
                                 margin: EdgeInsets.only(top: 8),
                                 child: TextFormField(
+                                  controller: minTempController,
                                   autofocus: false,
                                   style: TextStyle(
                                       fontSize: 19.0, color: blackColor),
@@ -293,11 +317,18 @@ class _EditValuesState extends State<EditValues> {
                                 width: scWidth,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                SuccessValue()));
+                                    if (maxTempController.text == '' ||
+                                        minTempController.text == '') {
+                                      awesomeTopSnackbar(
+                                          context, 'please check the detail');
+                                    } else {
+                                      DashbordController().editvalues(
+                                          widget.data?.deviceId.toString() ??
+                                              '',
+                                          maxTempController.text,
+                                          minTempController.text,
+                                          context: context);
+                                    }
                                   },
                                   child: Text(
                                     'Save Changes',

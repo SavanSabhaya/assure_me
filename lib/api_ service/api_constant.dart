@@ -8,4 +8,7 @@ class ApiConstant {
   static const String forgotePassword = 'api/Forgot-Password';
   static const String checkOtp = 'api/check-otp';
   static const String resetPassword = 'api/Reset-password';
+  static const String updateprofileurl = 'api/Update-Profile';
+  static const String devicelist = 'api/Device';
+  static const String temperatureUpdate = 'api/Temperature-update';
 }

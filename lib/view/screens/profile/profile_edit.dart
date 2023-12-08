@@ -1,3 +1,4 @@
+import 'package:assure_me/view/screens/profile/profile_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -8,6 +9,10 @@ import '../../../constant.dart';
 import 'dart:convert';
 
 class ProfileEdit extends StatefulWidget {
+  String? firstname;
+  String? lastname;
+  String? email;
+  ProfileEdit({this.firstname, this.lastname, this.email});
   static const routeName = '/ProfileEdit';
   @override
   State<ProfileEdit> createState() => _ProfileEditState();
@@ -15,9 +20,24 @@ class ProfileEdit extends StatefulWidget {
 
 class _ProfileEditState extends State<ProfileEdit> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController firstnameController = TextEditingController();
+  TextEditingController lastnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
   String _fname = '';
   String _lname = '';
   String _email = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      firstnameController.text = widget.firstname.toString();
+      lastnameController.text = widget.lastname.toString();
+      emailController.text = widget.email.toString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +80,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                           child: Container(
                             margin: EdgeInsets.only(top: 8),
                             child: TextFormField(
+                              controller: firstnameController,
                               autofocus: false,
                               style:
                                   TextStyle(fontSize: 19.0, color: blackColor),
@@ -101,6 +122,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                           child: Container(
                             margin: EdgeInsets.only(top: 8),
                             child: TextFormField(
+                              controller: lastnameController,
                               autofocus: false,
                               style:
                                   TextStyle(fontSize: 19.0, color: blackColor),
@@ -142,6 +164,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                           child: Container(
                             margin: EdgeInsets.only(top: 8),
                             child: TextFormField(
+                              controller: emailController,
                               autofocus: false,
                               style:
                                   TextStyle(fontSize: 19.0, color: blackColor),
@@ -191,7 +214,9 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 width: scWidth,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.of(context).pop();
+                                    ProfileController().profileEdit(
+                                        firstnameController.text,
+                                        emailController.text);
                                   },
                                   child: Text(
                                     'Go Back',

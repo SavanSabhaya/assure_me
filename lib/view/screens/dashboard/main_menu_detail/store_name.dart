@@ -1,5 +1,8 @@
 import 'package:assure_me/constant.dart';
+import 'package:assure_me/view/screens/dashboard/dashbord_controller.dart';
 import 'package:assure_me/view/screens/dashboard/main_menu_detail/store_name_detail.dart';
+import 'package:assure_me/view/screens/dashboard/model/deviceList_model.dart';
+import 'package:assure_me/view/screens/profile/profile_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +22,12 @@ class _StoreNameState extends State<StoreName> {
   // String _fname = '';
   // String _lname = '';
   // String _email = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    DashbordController().deviceList(setState: setState);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +81,10 @@ class _StoreNameState extends State<StoreName> {
                     width: scWidth / 3,
                     margin: EdgeInsets.only(top: scHeight / 15),
                     child: Text(
-                      "Store Name",
+                      profileModel.data?.first.name ?? '',
                       style: TextStyle(
                           color: blackColor,
-                          fontSize: lgFontSize,
+                          fontSize: 24,
                           fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
@@ -86,16 +95,12 @@ class _StoreNameState extends State<StoreName> {
                 margin: EdgeInsets.only(top: scHeight / 25),
                 height: scHeight / 1.5,
                 child: SingleChildScrollView(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // ListView.builder(itemBuilder: (context, i) {
-                    //   return;
-                    // },itemCount: 2,),
-                    AlertCard(),
-                    AlertCard(),
-                    AlertCard(),
-                  ],
+                    child: ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return AlertCard(deviceListModel.data?[index]);
+                  },
+                  itemCount: deviceListModel.data?.length ?? 0,
                 )),
               )
             ],
@@ -107,7 +112,8 @@ class _StoreNameState extends State<StoreName> {
 }
 
 class AlertCard extends StatelessWidget {
-  const AlertCard({super.key});
+  AlertCard(this.data, {super.key});
+  DatumTemp? data;
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +123,10 @@ class AlertCard extends StatelessWidget {
       margin: EdgeInsets.only(top: 15),
       child: ElevatedButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => StoreNameDetail()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => StoreNameDetail(data: data)));
         },
         style: ElevatedButton.styleFrom(
             elevation: 0,
@@ -139,7 +147,7 @@ class AlertCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Device Name",
+                    profileModel.data?.first.name ?? '',
                     style: TextStyle(
                         color: dfColor,
                         fontSize: lgFontSize,
@@ -152,20 +160,20 @@ class AlertCard extends StatelessWidget {
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    "Device Location",
-                    style: TextStyle(
-                        color: dfColor,
-                        fontSize: exXSmFontSize,
-                        fontWeight: FontWeight.w700),
-                  ),
+                  // Text(
+                  //   "Device Location",
+                  //   style: TextStyle(
+                  //       color: dfColor,
+                  //       fontSize: exXSmFontSize,
+                  //       fontWeight: FontWeight.w700),
+                  // ),
                   Text(
                     "25°C",
                     style: TextStyle(
                         color: dfColor,
-                        fontSize: exSmFontSize,
+                        fontSize: lgFontSize,
                         fontWeight: FontWeight.w700),
                   ),
                 ],

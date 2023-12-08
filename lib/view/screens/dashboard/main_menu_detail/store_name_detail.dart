@@ -1,6 +1,10 @@
 import 'package:assure_me/constant.dart';
+import 'package:assure_me/view/screens/dashboard/model/deviceList_model.dart';
+import 'package:assure_me/view/screens/profile/profile_controller.dart';
 import 'package:assure_me/view/screens/reports/report_send.dart';
+import 'package:assure_me/view/screens/reports_detail/edit_values.dart';
 import 'package:assure_me/view/screens/reports_detail/genrate_report.dart';
+import 'package:assure_me/view/widgets/custom_calendar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +16,8 @@ import 'dart:convert';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class StoreNameDetail extends StatefulWidget {
+  DatumTemp? data;
+  StoreNameDetail({this.data});
   static const routeName = '/StoreNameDetail';
   @override
   State<StoreNameDetail> createState() => _StoreNameDetailState();
@@ -75,7 +81,7 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                     width: scWidth / 3,
                     margin: EdgeInsets.only(top: scHeight / 15),
                     child: Text(
-                      "Store Name",
+                      profileModel.data?.first.name ?? '',
                       style: TextStyle(
                           color: blackColor,
                           fontSize: lgFontSize,
@@ -97,28 +103,36 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Device Name",
+                            profileModel.data?.first.name ?? '',
                             style: TextStyle(
                                 color: blackColor,
                                 fontSize: lgFontSize,
                                 fontWeight: FontWeight.w500),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: appcolor),
-                                borderRadius: BorderRadius.circular(30)),
-                            padding: EdgeInsets.all(15),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "13 Nov",
-                                  style: TextStyle(
-                                      color: blackColor,
-                                      fontSize: dfFontSize,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Icon(Icons.keyboard_arrow_down_sharp)
-                              ],
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CustomCalendar()));
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: appcolor),
+                                  borderRadius: BorderRadius.circular(30)),
+                              padding: EdgeInsets.all(15),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "13 Nov",
+                                    style: TextStyle(
+                                        color: blackColor,
+                                        fontSize: dfFontSize,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Icon(Icons.keyboard_arrow_down_sharp)
+                                ],
+                              ),
                             ),
                           )
                         ],
@@ -161,7 +175,8 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => GenrateReport()));
+                                        builder: (context) =>
+                                            EditValues(data: widget.data)));
                               },
                               child: Text(
                                 "Edit Values",
@@ -181,28 +196,28 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Traget",
-                                  style: TextStyle(
-                                      color: drakGreyColor,
-                                      fontSize: exXSmFontSize,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Text(
-                                  "25°C",
-                                  style: TextStyle(
-                                      color: blackColor,
-                                      fontSize: smFontSize,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Container(
+                          //   margin: EdgeInsets.only(left: 15),
+                          //   child: Column(
+                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //     children: [
+                          //       Text(
+                          //         "Traget",
+                          //         style: TextStyle(
+                          //             color: drakGreyColor,
+                          //             fontSize: exXSmFontSize,
+                          //             fontWeight: FontWeight.w500),
+                          //       ),
+                          //       Text(
+                          //         "25°C",
+                          //         style: TextStyle(
+                          //             color: blackColor,
+                          //             fontSize: smFontSize,
+                          //             fontWeight: FontWeight.w500),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                           Container(
                             margin: EdgeInsets.only(left: 15),
                             child: Column(
@@ -216,7 +231,7 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
-                                  "27°C",
+                                  "${widget.data?.deviceMaxTemperature}°C",
                                   style: TextStyle(
                                       color: blackColor,
                                       fontSize: smFontSize,
@@ -238,7 +253,7 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
-                                  "23°C",
+                                  "${widget.data?.deviceMinTemperature}°C",
                                   style: TextStyle(
                                       color: blackColor,
                                       fontSize: smFontSize,

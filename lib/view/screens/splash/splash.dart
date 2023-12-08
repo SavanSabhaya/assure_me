@@ -11,6 +11,7 @@ import 'package:assure_me/view/screens/password/forgot_password.dart';
 import 'package:assure_me/view/screens/password/new_password.dart';
 import 'package:assure_me/view/widgets/grident_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 String bearerToken = '';
 
@@ -65,19 +66,19 @@ class _SplashState extends State<Splash> {
                   children: [
                     Text(
                       "ASSURE",
-                      /*  style: GoogleFonts.sofiaSansCondensed(
+                      style: GoogleFonts.sofiaSansCondensed(
                         textStyle: Theme.of(context).textTheme.displayLarge,
                         fontSize: 60,
                         fontWeight: FontWeight.bold,
-                      ), */
+                      ),
                     ),
                     GradientText(
                       'ME',
-                      /*  style: GoogleFonts.sofiaSansCondensed(
+                      style: GoogleFonts.sofiaSansCondensed(
                         textStyle: Theme.of(context).textTheme.displayLarge,
                         fontSize: 60,
                         fontWeight: FontWeight.bold,
-                      ), */
+                      ),
                       gradient: LinearGradient(colors: [
                         Colors.red.shade200,
                         Colors.red.shade900,

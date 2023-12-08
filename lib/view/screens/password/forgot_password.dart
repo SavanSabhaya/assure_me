@@ -1,4 +1,5 @@
 import 'package:assure_me/view/screens/password/password_controller.dart';
+import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -22,7 +23,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    emailController.text = "savansabhaya111@gmail.com";
+    // emailController.text = "savansabhaya111@gmail.com";
   }
 
   @override
@@ -130,10 +131,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 width: scWidth,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    PasswordController().forgotPasswordApi(
-                                      emailAddress: emailController.text,
-                                      context: context,
-                                    );
+                                    if (emailController.text == '') {
+                                      awesomeTopSnackbar(
+                                          context, 'Please enter email');
+                                    } else {
+                                      PasswordController().forgotPasswordApi(
+                                        emailAddress: emailController.text,
+                                        context: context,
+                                      );
+                                    }
                                   },
                                   child: Text(
                                     'Next',

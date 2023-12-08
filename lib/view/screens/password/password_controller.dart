@@ -4,6 +4,7 @@ import 'package:assure_me/api_%20service/api_constant.dart';
 import 'package:assure_me/routes/routes.dart';
 import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
+import 'package:assure_me/view/screens/password/code.dart';
 import 'package:assure_me/view/screens/password/model/forgot_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -34,18 +35,26 @@ class PasswordController {
           forgotModel = ForgotModel.fromJson(value);
           Logger().d('get code==>$value');
           EasyLoading.dismiss().then((value) {
-            Navigator.pushNamed(context!, AppRoutes.otpCode);
+            Navigator.push(
+                context!,
+                MaterialPageRoute(
+                    builder: (context) => OtpCode(emailForOtp: emailAddress)));
           });
         }
       } catch (e) {
+        EasyLoading.dismiss();
         print(e);
       }
     });
   }
 
-  otpVerify({required String otpCode, BuildContext? context, setState}) async {
+  otpVerify(
+      {required String emailId,
+      required String otpCode,
+      BuildContext? context,
+      setState}) async {
     String url = ApiConstant.BASE_URL + ApiConstant.checkOtp;
-    Map<String, String> params = {'email': emailNameForOtp, 'otp': "12345"};
+    Map<String, String> params = {'email': emailId, 'otp': "12345"};
     EasyLoading.show();
     Logger().d('params for code==>$params');
 

@@ -183,16 +183,15 @@ class _NewPasswordState extends State<NewPassword> {
                                         newPassword.text) {
                                       awesomeTopSnackbar(
                                           context, "Password doesn'\t match ");
+                                    } else if (confirmpassword.text == '' ||
+                                        newPassword.text == '') {
+                                      awesomeTopSnackbar(
+                                          context, 'enter Password');
                                     } else {
                                       PasswordController().resetPassword(
                                           password: confirmpassword.text,
                                           context: context);
                                     }
-
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) => HomePage()));
                                   },
                                   child: Text(
                                     'Next',

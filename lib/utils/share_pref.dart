@@ -61,7 +61,7 @@ class NetworkApiService {
     }
   }
 
- /*  Future<dynamic> getPostApiTokenResponse({
+  /*  Future<dynamic> getPostApiTokenResponse({
     required String url,
     dynamic data,
   }) async {
@@ -84,35 +84,31 @@ class NetworkApiService {
     }
   }
  */
-  
-  
-   getPostApiTokenResponse({
-  required String url,
-  dynamic data,
-}) async {
-  // var token = await StorageUtil.getData(StorageUtil.keyToken);
-  // print('post api in token is ==>>>>$token');
-  Map<String, String> header = <String, String>{};
-  header.addAll({
-    'Content-Type': 'application/json',
-  });
-  if (bearerToken != null) {
+  getPostApiTokenResponse({
+    required String url,
+    dynamic data,
+  }) async {
+    var token = await preferences.getStringValue(SharePreData.keytoken);
+    print('post api in token is ==>>>>$token');
+    Map<String, String> header = <String, String>{};
     header.addAll({
-      'Authorization': 'Bearer $bearerToken',
+      'Content-Type': 'application/json',
     });
+    if (token != null) {
+      header.addAll({
+        'Authorization': 'Bearer $token',
+      });
+    }
+    var response = await post(Uri.parse(url), headers: header, body: data);
+
+    if (response.statusCode == 200) {
+      print("data profile is readyfor up to date===>>>> if");
+      return jsonDecode(response.body);
+    } else {
+      print("data profile is readyfor up to date===>>>> else ");
+    }
   }
-  var response = await post(Uri.parse(url), headers: header, body: data);
 
-  if (response.statusCode == 200) {
-    print("data profile is readyfor up to date===>>>> if${response.statusCode}");
-    return jsonDecode(response.body);
-  }else{
-    print("data profile is readyfor up to date===>>>> else${response.statusCode }${response.body} ");
-
-  }}
-
-  
-  
   // Multipart Api call for user profile update
   @override
   Future<dynamic> postMultiPartApi(

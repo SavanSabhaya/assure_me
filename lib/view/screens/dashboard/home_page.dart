@@ -3,6 +3,7 @@ import 'package:assure_me/view/screens/dashboard/aleart_page.dart';
 import 'package:assure_me/view/screens/dashboard/main_menu.dart';
 import 'package:assure_me/view/screens/password/change_password.dart';
 import 'package:assure_me/view/screens/profile/profile.dart';
+import 'package:assure_me/view/screens/profile/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
@@ -28,6 +29,12 @@ class _HomePageState extends State<HomePage> {
     AlertsPage(),
     Profile(),
   ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ProfileController().profile(setState: setState);
+  }
 
   @override
   Widget build(BuildContext context) {

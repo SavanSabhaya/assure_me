@@ -2,6 +2,7 @@ import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
 import 'package:assure_me/view/screens/password/change_password.dart';
 import 'package:assure_me/view/screens/password/password_controller.dart';
+import 'package:assure_me/view/screens/profile/model/profile_model.dart';
 import 'package:assure_me/view/screens/profile/news.dart';
 import 'package:assure_me/view/screens/profile/profile_controller.dart';
 import 'package:assure_me/view/screens/profile/profile_edit.dart';
@@ -31,7 +32,9 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
 
-    ProfileController().profile();
+    setState(() {
+      ProfileController().profile(setState: setState);
+    });
   }
 
   @override
@@ -78,7 +81,7 @@ class _ProfileState extends State<Profile> {
                         textAlign: TextAlign.left,
                       ),
                       Text(
-                        "User Name",
+                        profileModel?.data?.first.username ?? '',
                         style: TextStyle(
                             color: blackColor,
                             fontSize: 28,
@@ -111,8 +114,14 @@ class _ProfileState extends State<Profile> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProfileEdit()));
+                                            builder: (context) => ProfileEdit(
+                                                  firstname: profileModel
+                                                      .data?.first.name,
+                                                  lastname: profileModel
+                                                      .data?.first.username,
+                                                  email: profileModel
+                                                      .data?.first.email,
+                                                )));
                                   },
                                   child: Text(
                                     'Account Info',
@@ -229,7 +238,10 @@ class _ProfileState extends State<Profile> {
                                     borderRadius: BorderRadius.circular(20)),
                                 width: scWidth,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    ProfileController()
+                                        .logoutApi(context: context);
+                                  },
                                   child: Text(
                                     'Logout',
                                     style: TextStyle(

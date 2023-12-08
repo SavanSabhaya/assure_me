@@ -1,4 +1,5 @@
 import 'package:assure_me/view/screens/password/password_controller.dart';
+import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +10,9 @@ import '../../../constant.dart';
 import 'dart:convert';
 
 class OtpCode extends StatefulWidget {
+  String? emailForOtp;
+  OtpCode({this.emailForOtp});
+
   static const routeName = '/OtpCode';
   @override
   State<OtpCode> createState() => _OtpCodeState();
@@ -124,9 +128,15 @@ class _OtpCodeState extends State<OtpCode> {
                                 width: scWidth,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    PasswordController().otpVerify(
-                                        otpCode: otpController.text,
-                                        context: context);
+                                    if (otpController.text == '') {
+                                      awesomeTopSnackbar(
+                                          context, 'Please enter OTP code');
+                                    } else {
+                                      PasswordController().otpVerify(
+                                          emailId: widget.emailForOtp ?? '',
+                                          otpCode: otpController.text,
+                                          context: context);
+                                    }
                                   },
                                   child: Text(
                                     'Next',

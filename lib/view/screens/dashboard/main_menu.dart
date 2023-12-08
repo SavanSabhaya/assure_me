@@ -1,5 +1,6 @@
 import 'package:assure_me/constant.dart';
 import 'package:assure_me/view/screens/dashboard/main_menu_detail/store_name.dart';
+import 'package:assure_me/view/screens/profile/profile_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +20,14 @@ class _MainMenuState extends State<MainMenu> {
   // String _fname = '';
   // String _lname = '';
   // String _email = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      ProfileController().profile(setState: setState);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +107,7 @@ class AlertCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "STORE NAME",
+              profileModel.data?.first.name ?? '',
               style: TextStyle(
                   color: dfColor,
                   fontSize: exLgFontSize,

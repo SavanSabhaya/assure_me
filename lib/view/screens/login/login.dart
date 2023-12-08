@@ -4,6 +4,7 @@ import 'package:assure_me/routes/routes.dart';
 import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
 import 'package:assure_me/view/screens/login/login_controller.dart';
+import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -37,8 +38,8 @@ class _LogInState extends State<LogIn> {
   @override
   void initState() {
     super.initState();
-    emailAddress.text = "savansabhaya111@gmail.com";
-    password.text = 'Test@123';
+    // emailAddress.text = "gaurangkabra97@gmail.com";
+    // password.text = 'Test@123';
 
     preferences.getStringValue(SharePreData.keytoken).then((token) {
       print('=====> get token $token');
@@ -255,14 +256,16 @@ class _LogInState extends State<LogIn> {
                               width: scWidth,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  print('tap sucess===>>>');
-
-                                  // setState(() {
-                                  LoginController().loginApi(
-                                      emailAddress: emailAddress.text,
-                                      password: password.text,
-                                      context: context);
-                                  // });
+                                  if (emailAddress.text == '' ||
+                                      password.text == '') {
+                                    awesomeTopSnackbar(
+                                        context, 'please enter detail');
+                                  } else {
+                                    LoginController().loginApi(
+                                        emailAddress: emailAddress.text,
+                                        password: password.text,
+                                        context: context);
+                                  }
                                 },
                                 child: Text(
                                   'LogIn',
