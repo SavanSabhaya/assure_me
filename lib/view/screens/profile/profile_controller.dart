@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:assure_me/api_%20service/api_constant.dart';
 import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
@@ -6,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:logger/logger.dart';
 
-String emailNameForOtp = '';
 
 class ProfileController {
   var preferences = MySharedPref();
@@ -21,16 +22,14 @@ class ProfileController {
     await apiReq
         .getPostApiTokenResponse(
       url: url,
-      data: null,
+      data: jsonEncode({}),
     )
         .then((value) async {
       try {
         if (value['status_code'] == 200) {
-          Logger().d('gmail is  code==>$emailNameForOtp');
-          // profileModel = ProfileModel.fromJson(value);
+          profileModel = ProfileModel.fromJson(value);
           Logger().d('get code==>$value');
           EasyLoading.dismiss().then((value) {
-            // Navigator.pushNamed(context!, AppRoutes.otpCode);
           });
         }
       } catch (e) {

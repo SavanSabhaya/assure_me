@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:assure_me/utils/prefrence_utils.dart';
+import 'package:assure_me/view/screens/splash/splash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart';
@@ -60,41 +61,58 @@ class NetworkApiService {
     }
   }
 
-  @override
-  Future<dynamic> getPostApiTokenResponse({
+ /*  Future<dynamic> getPostApiTokenResponse({
     required String url,
     dynamic data,
   }) async {
-    var gettoken;
-    Map<String, String> headers = {};
-    preferences.getStringValue(SharePreData.keytoken).then((token) {
-      // if (token != null) {
-      //   // headers['Authorization'] = token;
-      //   print('=====> get token api service $token');
-      // }
-      headers.addAll({
-        HttpHeaders.contentTypeHeader: 'application/json',
-        "Authorization": "$token",
-      });
-    });
+    Map<String, String> headers = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      "Authorization": bearerToken,
+    };
 
-    // final Map<String, String> headers = {
-    //   "Authorization": "Bearer $gettoken ",
-    // };
     print('API : ' + url.toString());
     try {
       Response response = await post(
         headers: headers,
         Uri.parse(url),
-        body: data == null ? null : data,
+        body: data,
       );
-      print('returnResponseData ::: ' + returnResponse(response).toString());
+      // print('returnResponseData ::: ' + returnResponse(response).toString());
       return returnResponse(response);
     } on SocketException {
       // throw FetchDataException('No Internet Connection');
     }
   }
+ */
+  
+  
+   getPostApiTokenResponse({
+  required String url,
+  dynamic data,
+}) async {
+  // var token = await StorageUtil.getData(StorageUtil.keyToken);
+  // print('post api in token is ==>>>>$token');
+  Map<String, String> header = <String, String>{};
+  header.addAll({
+    'Content-Type': 'application/json',
+  });
+  if (bearerToken != null) {
+    header.addAll({
+      'Authorization': 'Bearer $bearerToken',
+    });
+  }
+  var response = await post(Uri.parse(url), headers: header, body: data);
 
+  if (response.statusCode == 200) {
+    print("data profile is readyfor up to date===>>>> if${response.statusCode}");
+    return jsonDecode(response.body);
+  }else{
+    print("data profile is readyfor up to date===>>>> else${response.statusCode }${response.body} ");
+
+  }}
+
+  
+  
   // Multipart Api call for user profile update
   @override
   Future<dynamic> postMultiPartApi(
@@ -135,7 +153,7 @@ class NetworkApiService {
       case 404:
         throw UnauthorisedException(response.body.toString()); */
       default:
-        throw EasyLoading.show(indicator: Text("${response.statusCode}"));
+        throw 'error';
       // 'Error accured while communicating with serverwith status code${response.statusCode}');
     }
   }

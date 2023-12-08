@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:assure_me/constant.dart';
 import 'package:assure_me/routes/routes.dart';
+import 'package:assure_me/utils/prefrence_utils.dart';
+import 'package:assure_me/utils/share_pref.dart';
 import 'package:assure_me/view/screens/dashboard/home_page.dart';
 import 'package:assure_me/view/screens/login/login.dart';
 import 'package:assure_me/view/screens/password/code.dart';
@@ -9,6 +11,8 @@ import 'package:assure_me/view/screens/password/forgot_password.dart';
 import 'package:assure_me/view/screens/password/new_password.dart';
 import 'package:assure_me/view/widgets/grident_text.dart';
 import 'package:flutter/material.dart';
+
+String bearerToken = '';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -18,10 +22,16 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+  var preferences = MySharedPref();
   @override
   void initState() {
     super.initState();
 
+    preferences.getStringValue(SharePreData.keytoken).then((token) {
+      setState(() {
+        bearerToken = token;
+      });
+    });
     Timer(const Duration(seconds: 4), () => checkSessionStatus());
   }
 
