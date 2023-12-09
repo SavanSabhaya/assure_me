@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 String bearerToken = '';
+bool keepLogin = false;
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -31,13 +32,30 @@ class _SplashState extends State<Splash> {
     preferences.getStringValue(SharePreData.keytoken).then((token) {
       setState(() {
         bearerToken = token;
+        print('is get token =====>>>$bearerToken');
       });
+    });
+    preferences.getBoolValue(SharePreData.keyKeepLogin).then((value) {
+      if (value != null) {
+        setState(() {
+          keepLogin = value;
+          print('is keep login  =====>>>$keepLogin');
+        });
+      }
     });
     Timer(const Duration(seconds: 4), () => checkSessionStatus());
   }
 
   Future<void> checkSessionStatus() async {
-    Navigator.pushNamed(context, AppRoutes.login);
+    if (keepLogin) {
+      if (bearerToken == '') {
+        Navigator.pushNamed(context, AppRoutes.login);
+      } else {
+        Navigator.pushNamed(context, AppRoutes.homepage);
+      }
+    } else {
+      Navigator.pushNamed(context, AppRoutes.login);
+    }
   }
 
   @override

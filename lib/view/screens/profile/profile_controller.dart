@@ -82,8 +82,8 @@ class ProfileController {
         .then((value) async {
       try {
         if (value['status_code'] == 200) {
-          Logger().d('get code==>$value');
           EasyLoading.dismiss().then((value) {
+            preferences.clear();
             Navigator.pushNamed(context!, AppRoutes.login);
           });
         }

@@ -1,6 +1,9 @@
+import 'package:assure_me/api_%20service/api_constant.dart';
 import 'package:assure_me/view/screens/profile/profile_controller.dart';
+import 'package:assure_me/view/screens/splash/splash.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:roundcheckbox/roundcheckbox.dart';
 
@@ -37,6 +40,35 @@ class _ProfileEditState extends State<ProfileEdit> {
       lastnameController.text = widget.lastname.toString();
       emailController.text = widget.email.toString();
     });
+  }
+
+  Future<void> updateProfile(
+      {String? bearerToken1, String? newName, String? newEmail}) async {
+    String url = ApiConstant.BASE_URL + ApiConstant.logout;
+    final Map<String, dynamic> bodyParams = {
+      'name': newName,
+      'email': newEmail,
+      // Add any other parameters you want to update in the profile
+    };
+    EasyLoading.show();
+    final http.Response response = await http.post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $bearerToken',
+      },
+      body: jsonEncode(bodyParams),
+    );
+
+    if (response.statusCode == 200) {
+
+      print('Profile updated successfully${response.body}');
+      EasyLoading.dismiss();
+      Navigator.pop(context);
+    } else {
+      print('Failed to update profile. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
   }
 
   @override
@@ -214,9 +246,12 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 width: scWidth,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    ProfileController().profileEdit(
+                                    /* ProfileController().profileEdit(
                                         firstnameController.text,
-                                        emailController.text);
+                                        emailController.text); */
+                                    updateProfile(
+                                        newEmail: firstnameController.text,
+                                        newName: emailController.text);
                                   },
                                   child: Text(
                                     'Go Back',

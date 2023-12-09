@@ -1,10 +1,14 @@
+import 'package:assure_me/api_%20service/api_constant.dart';
+import 'package:assure_me/routes/routes.dart';
 import 'package:assure_me/view/screens/dashboard/dashbord_controller.dart';
 import 'package:assure_me/view/screens/dashboard/home_page.dart';
 import 'package:assure_me/view/screens/dashboard/model/deviceList_model.dart';
 import 'package:assure_me/view/screens/reports/success_value.dart';
+import 'package:assure_me/view/screens/splash/splash.dart';
 import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:roundcheckbox/roundcheckbox.dart';
 
@@ -40,6 +44,34 @@ class _EditValuesState extends State<EditValues> {
       maxTempController.text = widget.data?.deviceMaxTemperature ?? '';
       minTempController.text = widget.data?.deviceMinTemperature ?? '';
     });
+  }
+
+  Future<void> editValuesApi(
+      {String? deviceId, String? maxtemp, String? minTemp}) async {
+    String url = ApiConstant.BASE_URL + ApiConstant.temperatureUpdate;
+    final Map<String, dynamic> bodyParams = {
+      "device_id": deviceId,
+      "device_max": maxtemp,
+      "device_min": minTemp
+    };
+    EasyLoading.show();
+    final http.Response response = await http.post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $bearerToken',
+      },
+      body: jsonEncode(bodyParams),
+    );
+
+    if (response.statusCode == 200) {
+      print('temp edit successFully===>${response.body}');
+      EasyLoading.dismiss();
+      Navigator.pushReplacementNamed(context, AppRoutes.homepage);
+    } else {
+      print('Failed to update profile. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
   }
 
   @override
@@ -322,12 +354,17 @@ class _EditValuesState extends State<EditValues> {
                                       awesomeTopSnackbar(
                                           context, 'please check the detail');
                                     } else {
-                                      DashbordController().editvalues(
+                                      /* DashbordController().editvalues(
                                           widget.data?.deviceId.toString() ??
                                               '',
                                           maxTempController.text,
                                           minTempController.text,
-                                          context: context);
+                                          context: context); */
+                                      editValuesApi(
+                                          deviceId:
+                                              widget.data?.deviceId.toString(),
+                                          maxtemp: maxTempController.text,
+                                          minTemp: minTempController.text);
                                     }
                                   },
                                   child: Text(

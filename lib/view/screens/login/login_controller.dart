@@ -6,6 +6,7 @@ import 'package:assure_me/routes/routes.dart';
 import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
 import 'package:assure_me/view/screens/login/login_model.dart';
+import 'package:assure_me/view/screens/splash/splash.dart';
 import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -38,8 +39,10 @@ class LoginController {
           EasyLoading.dismiss();
           loginModel = LoginModel.fromJson(value);
           tokens = loginModel?.data?.token ?? '';
+          bearerToken=loginModel?.data?.token ?? '';
           preferences.setString(
               SharePreData.keytoken, loginModel?.data?.token.toString() ?? '');
+              preferences.setBool(SharePreData.keyKeepLogin, true);
           Logger().d(loginModel?.data?.token);
           Navigator.pushNamed(context!, AppRoutes.homepage);
         } else {
