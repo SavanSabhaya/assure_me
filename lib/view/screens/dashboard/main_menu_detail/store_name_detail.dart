@@ -156,7 +156,7 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
-                                  "25°C",
+                                  "${widget.data?.device?.temperature ?? ''}°F",
                                   style: TextStyle(
                                       color: blackColor,
                                       fontSize: 28,
@@ -304,7 +304,7 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ReportSend()));
+                                        builder: (context) => GenrateReport()));
                               },
                               child: Text(
                                 'Genrate Report',

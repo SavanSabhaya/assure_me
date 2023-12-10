@@ -42,7 +42,6 @@ class LoginController {
           bearerToken=loginModel?.data?.token ?? '';
           preferences.setString(
               SharePreData.keytoken, loginModel?.data?.token.toString() ?? '');
-              preferences.setBool(SharePreData.keyKeepLogin, true);
           Logger().d(loginModel?.data?.token);
           Navigator.pushNamed(context!, AppRoutes.homepage);
         } else {

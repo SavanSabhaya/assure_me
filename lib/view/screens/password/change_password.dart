@@ -1,4 +1,6 @@
 import 'package:assure_me/view/screens/password/new_password.dart';
+import 'package:assure_me/view/screens/password/password_controller.dart';
+import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +17,8 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  TextEditingController emailController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   String _email = '';
 
@@ -79,6 +83,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           child: Container(
                             margin: EdgeInsets.only(top: 8),
                             child: TextFormField(
+                              controller: emailController,
                               autofocus: false,
                               style:
                                   TextStyle(fontSize: 19.0, color: blackColor),
@@ -127,11 +132,15 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 width: scWidth,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                NewPassword()));
+                                    if (emailController.text == '') {
+                                      awesomeTopSnackbar(
+                                          context, 'Please enter email');
+                                    } else {
+                                      PasswordController().forgotPasswordApi(
+                                        emailAddress: emailController.text,
+                                        context: context,
+                                      );
+                                    }
                                   },
                                   child: Text(
                                     'Next',

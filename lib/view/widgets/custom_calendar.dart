@@ -76,7 +76,11 @@ class _CustomCalendarState extends State<CustomCalendar> {
                           backgroundColor: appcolor,
                           radius: 30,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pop(
+                                context,
+                              );
+                            },
                             child: Icon(
                               Icons.close,
                               color: dfColor,

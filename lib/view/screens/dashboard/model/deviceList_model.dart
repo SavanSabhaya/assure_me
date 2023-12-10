@@ -52,6 +52,7 @@ class DatumTemp {
   String? deviceMinTemperature;
   DateTime? createdAt;
   DateTime? updatedAt;
+  Device? device;
 
   DatumTemp({
     this.id,
@@ -61,6 +62,7 @@ class DatumTemp {
     this.deviceMinTemperature,
     this.createdAt,
     this.updatedAt,
+    this.device,
   });
 
   factory DatumTemp.fromJson(Map<String, dynamic> json) => DatumTemp(
@@ -75,6 +77,7 @@ class DatumTemp {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
+        device: json["device"] == null ? null : Device.fromJson(json["device"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -85,5 +88,30 @@ class DatumTemp {
         "device_min_Temperature": deviceMinTemperature,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
+        "device": device?.toJson(),
+      };
+}
+
+class Device {
+  int? id;
+  String? deviceId;
+  String? temperature;
+
+  Device({
+    this.id,
+    this.deviceId,
+    this.temperature,
+  });
+
+  factory Device.fromJson(Map<String, dynamic> json) => Device(
+        id: json["id"],
+        deviceId: json["device_id"],
+        temperature: json["temperature"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "device_id": deviceId,
+        "temperature": temperature,
       };
 }

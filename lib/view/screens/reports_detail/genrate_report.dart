@@ -1,4 +1,6 @@
 import 'package:assure_me/view/screens/reports/report_send.dart';
+import 'package:assure_me/view/screens/reports_detail/mobile.dart';
+import 'package:assure_me/view/widgets/custom_calendar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -40,7 +42,9 @@ class _GenrateReportState extends State<GenrateReport> {
                   width: scWidth / 4,
                   margin: EdgeInsets.only(top: scHeight / 15),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     style: ElevatedButton.styleFrom(
                         elevation: 0,
                         backgroundColor: Colors.transparent,
@@ -109,6 +113,14 @@ class _GenrateReportState extends State<GenrateReport> {
                               Container(
                                 margin: EdgeInsets.only(top: 8),
                                 child: TextFormField(
+                                  readOnly: true,
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CustomCalendar()));
+                                  },
                                   autofocus: false,
                                   style: TextStyle(
                                       fontSize: 19.0, color: blackColor),
@@ -282,11 +294,12 @@ class _GenrateReportState extends State<GenrateReport> {
                                 width: scWidth,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ReportSend()));
+                                    generatePDF();
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             ReportSend()));
                                   },
                                   child: Text(
                                     'Genrate Report',

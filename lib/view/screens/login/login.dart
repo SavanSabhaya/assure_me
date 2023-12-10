@@ -230,7 +230,12 @@ class _LogInState extends State<LogIn> {
                                   RoundCheckBox(
                                       size: 25,
                                       checkedColor: appcolor,
-                                      onTap: (selected) {}),
+                                      onTap: (selected) {
+                                        if (selected == true) {
+                                          preferences.setBool(
+                                              SharePreData.keyKeepLogin, true);
+                                        }
+                                      }),
                                   Container(
                                     margin: EdgeInsets.only(left: 10),
                                     child: Text(
