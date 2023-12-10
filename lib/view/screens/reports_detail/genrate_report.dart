@@ -1,8 +1,17 @@
+import 'package:assure_me/api_%20service/api_constant.dart';
+import 'package:assure_me/routes/routes.dart';
+import 'package:assure_me/view/screens/dashboard/model/deviceList_model.dart';
+import 'package:assure_me/view/screens/profile/profile_controller.dart';
 import 'package:assure_me/view/screens/reports/report_send.dart';
 import 'package:assure_me/view/screens/reports_detail/mobile.dart';
+import 'package:assure_me/view/screens/reports_detail/pdfview.dart';
+import 'package:assure_me/view/screens/reports_detail/report_model.dart';
+import 'package:assure_me/view/screens/splash/splash.dart';
 import 'package:assure_me/view/widgets/custom_calendar.dart';
+import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:roundcheckbox/roundcheckbox.dart';
 
@@ -10,17 +19,70 @@ import 'dart:io' show Platform;
 import '../../../constant.dart';
 import 'dart:convert';
 
+ReportModel reportModel = ReportModel();
+
 class GenrateReport extends StatefulWidget {
+  DatumTemp? data;
+  GenrateReport({this.data});
   static const routeName = '/GenrateReport';
   @override
   State<GenrateReport> createState() => _GenrateReportState();
 }
 
 class _GenrateReportState extends State<GenrateReport> {
+  TextEditingController startDateController = TextEditingController();
+  TextEditingController endDateController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   String _fname = '';
   String _lname = '';
   String _email = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      print('get dtating date ===>$startingDate');
+      startDateController.text = startingDate;
+      endDateController.text = endingDate;
+      emailController.text = profileModel.data?.first.email ?? '';
+    });
+  }
+
+  Future<void> editValuesApi(
+      {String? deviceId, String? startDate, String? endDate}) async {
+    String url = ApiConstant.BASE_URL + ApiConstant.dateReport;
+    final Map<String, dynamic> bodyParams = {
+      "start_date": startDate,
+      "end_date": endDate,
+      "device_id": widget.data?.deviceId
+    };
+    EasyLoading.show();
+    final http.Response response = await http
+        .post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $bearerToken',
+      },
+      body: jsonEncode(bodyParams),
+    )
+        .then((value) {
+      setState(() {});
+      return value;
+    });
+
+    if (response.statusCode == 200) {
+      reportModel = ReportModel.fromJson(jsonDecode(response.body));
+      print('report successFully===>${response.body}');
+      EasyLoading.dismiss();
+    } else {
+      print('Failed to report. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,13 +175,22 @@ class _GenrateReportState extends State<GenrateReport> {
                               Container(
                                 margin: EdgeInsets.only(top: 8),
                                 child: TextFormField(
+                                  controller: startDateController,
                                   readOnly: true,
                                   onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                CustomCalendar()));
+                                                CustomCalendar(
+                                                  isFrom: 'start',
+                                                ))).then((value) {
+                                      if (value != null) {
+                                        setState(() {
+                                          startDateController.text = value;
+                                        });
+                                      }
+                                    });
                                   },
                                   autofocus: false,
                                   style: TextStyle(
@@ -177,6 +248,22 @@ class _GenrateReportState extends State<GenrateReport> {
                               Container(
                                 margin: EdgeInsets.only(top: 8),
                                 child: TextFormField(
+                                  controller: endDateController,
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CustomCalendar(
+                                                  isFrom: 'end',
+                                                ))).then((value) {
+                                      if (value != null) {
+                                        setState(() {
+                                          endDateController.text = value;
+                                        });
+                                      }
+                                    });
+                                  },
                                   autofocus: false,
                                   style: TextStyle(
                                       fontSize: 19.0, color: blackColor),
@@ -241,6 +328,7 @@ class _GenrateReportState extends State<GenrateReport> {
                               Container(
                                 margin: EdgeInsets.only(top: 8),
                                 child: TextFormField(
+                                  controller: emailController,
                                   autofocus: false,
                                   style: TextStyle(
                                       fontSize: 19.0, color: blackColor),
@@ -294,12 +382,30 @@ class _GenrateReportState extends State<GenrateReport> {
                                 width: scWidth,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    generatePDF();
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             ReportSend()));
+                                    if (startDateController.text == "" ||
+                                        endDateController.text == '') {
+                                      awesomeTopSnackbar(
+                                          context, 'Please selcet date');
+                                    } else {
+                                      editValuesApi(
+                                              startDate:
+                                                  startDateController.text,
+                                              endDate: endDateController.text)
+                                          .then((value) async {
+                                        setState(() async {
+                                          var getpath = await generatePDF(
+                                              reportModel.data);
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PDFViewerPage(
+                                                        pdfPath:
+                                                            getpath.toString(),
+                                                      )));
+                                        });
+                                      });
+                                    }
                                   },
                                   child: Text(
                                     'Genrate Report',

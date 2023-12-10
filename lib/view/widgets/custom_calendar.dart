@@ -1,3 +1,4 @@
+import 'package:assure_me/view/screens/reports_detail/genrate_report.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -7,8 +8,14 @@ import 'package:table_calendar/table_calendar.dart';
 import 'dart:io' show Platform;
 import '../../../constant.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
+
+String startingDate = '';
+String endingDate = '';
 
 class CustomCalendar extends StatefulWidget {
+  String? isFrom;
+  CustomCalendar({this.isFrom});
   static const routeName = '/CustomCalendar';
   @override
   State<CustomCalendar> createState() => _CustomCalendarState();
@@ -20,6 +27,12 @@ class _CustomCalendarState extends State<CustomCalendar> {
   DateTime today = DateTime.now();
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
+      if (widget.isFrom == 'start') {
+        startingDate = DateFormat('yyyy-MM-dd').format(day);
+      } else {
+        endingDate = DateFormat('yyyy-MM-dd').format(day);
+      }
+      print('get day====>>>${day}');
       today = day;
     });
   }
@@ -100,7 +113,13 @@ class _CustomCalendarState extends State<CustomCalendar> {
                           backgroundColor: appcolor,
                           radius: 30,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              if (widget.isFrom == 'start') {
+                                Navigator.pop(context, startingDate);
+                              } else {
+                                Navigator.pop(context, endingDate);
+                              }
+                            },
                             child: Icon(
                               Icons.check,
                               color: dfColor,

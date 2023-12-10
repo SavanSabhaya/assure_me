@@ -305,6 +305,10 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => GenrateReport()));
+                                setState(() {
+                                  startingDate = '';
+                                  endingDate = '';
+                                });
                               },
                               child: Text(
                                 'Genrate Report',

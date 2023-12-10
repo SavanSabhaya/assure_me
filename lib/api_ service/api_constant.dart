@@ -11,4 +11,5 @@ class ApiConstant {
   static const String updateprofileurl = 'api/Update-Profile';
   static const String devicelist = 'api/Device';
   static const String temperatureUpdate = 'api/Temperature-update';
+  static const String dateReport = 'api/Date-Report';
 }
