@@ -1,4 +1,6 @@
 import 'package:assure_me/constant.dart';
+import 'package:assure_me/view/screens/dashboard/dashbord_controller.dart';
+import 'package:assure_me/view/screens/dashboard/model/notification_model.dart';
 import 'package:assure_me/view/screens/reports_detail/edit_values.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:roundcheckbox/roundcheckbox.dart';
 
 import 'dart:io' show Platform;
+import 'package:intl/intl.dart';
+
 import 'dart:convert';
 
 class AlertsPage extends StatefulWidget {
@@ -19,6 +23,13 @@ class _AlertsPageState extends State<AlertsPage> {
   // String _fname = '';
   // String _lname = '';
   // String _email = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    DashbordController().notificationList(setState: setState);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,20 +58,15 @@ class _AlertsPageState extends State<AlertsPage> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: scHeight / 25),
-                height: scHeight / 1.5,
-                child: SingleChildScrollView(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // ListView.builder(itemBuilder: (context, i) {
-                    //   return;
-                    // },itemCount: 2,),
-                    AlertCard(),
-                    AlertCard(),
-                  ],
-                )),
+              Expanded(
+                child: ListView.builder(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return AlertCard(notificationModel.data![index]);
+                  },
+                  itemCount: notificationModel.data?.length,
+                ),
               )
             ],
           ),
@@ -71,7 +77,8 @@ class _AlertsPageState extends State<AlertsPage> {
 }
 
 class AlertCard extends StatelessWidget {
-  const AlertCard({super.key});
+  Datum data;
+  AlertCard(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +88,8 @@ class AlertCard extends StatelessWidget {
       margin: EdgeInsets.only(top: 10),
       child: ElevatedButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => EditValues()));
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => EditValues()));
         },
         style: ElevatedButton.styleFrom(
             elevation: 0,
@@ -117,15 +124,18 @@ class AlertCard extends StatelessWidget {
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Max temperature reached!",
-                          style: TextStyle(
-                              color: blackColor,
-                              fontSize: dfFontSize,
-                              fontWeight: FontWeight.w700),
+                        Expanded(
+                          child: Text(
+                            data.message ?? '',
+                            maxLines: 4,
+                            style: TextStyle(
+                                color: blackColor,
+                                fontSize: dfFontSize,
+                                fontWeight: FontWeight.w700),
+                          ),
                         ),
                         Text(
-                          "12:31",
+                          DateFormat('HH:mm').format(data.createdAt!),
                           style: TextStyle(
                               color: blackColor,
                               fontSize: exSmFontSize,
@@ -151,7 +161,7 @@ class AlertCard extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(20),
                     width: scWidth / 1.3,
-                    height: scHeight / 7,
+                    height: scHeight / 13,
                     decoration: BoxDecoration(
                         color: appcolor,
                         borderRadius: BorderRadius.circular(20)),
@@ -162,7 +172,7 @@ class AlertCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Device Name",
+                              data.packageId.toString(),
                               style: TextStyle(
                                   color: dfColor,
                                   fontSize: dfFontSize,
@@ -174,25 +184,25 @@ class AlertCard extends StatelessWidget {
                             )
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Device Location",
-                              style: TextStyle(
-                                  color: dfColor,
-                                  fontSize: exXSmFontSize,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                            Text(
-                              "25°C",
-                              style: TextStyle(
-                                  color: dfColor,
-                                  fontSize: exSmFontSize,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        )
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Text(
+                        //       "Device Location",
+                        //       style: TextStyle(
+                        //           color: dfColor,
+                        //           fontSize: exXSmFontSize,
+                        //           fontWeight: FontWeight.w700),
+                        //     ),
+                        //     Text(
+                        //       "25°C",
+                        //       style: TextStyle(
+                        //           color: dfColor,
+                        //           fontSize: exSmFontSize,
+                        //           fontWeight: FontWeight.w700),
+                        //     ),
+                        //   ],
+                        // )
                       ],
                     ),
                   )
