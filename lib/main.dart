@@ -1,14 +1,29 @@
+import 'package:assure_me/api_%20service/fire_service.dart';
 import 'package:assure_me/constant.dart';
 import 'package:assure_me/routes/routes.dart';
-import 'package:assure_me/view/screens/login/login.dart';
-import 'package:assure_me/view/screens/splash/splash.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-void main() {
-  runApp(const MyApp());
-  configLoading();
+import 'package:permission_handler/permission_handler.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await PushNotificationService().setupInteractedMessage();
+  // await Firebase.initializeApp();
+  String? token = await FirebaseMessaging.instance.getToken();
+  print('get token ======> $token');
+  await Permission.notification.isDenied.then(
+    (bool value) {
+      if (value) {
+        Permission.notification.request();
+      }
+    },
+  );
+
+  runApp(MyApp());
 }
 
 void configLoading() {

@@ -1,4 +1,4 @@
-package com.example.assure_me;
+package com.application.assureme;
 
 import io.flutter.embedding.android.FlutterActivity;
 
