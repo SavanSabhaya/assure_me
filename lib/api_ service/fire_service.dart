@@ -1,14 +1,35 @@
-
-
+import 'package:assure_me/utils/prefrence_utils.dart';
+import 'package:assure_me/utils/share_pref.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart' as flutter_local_notifications;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart'
+    as flutter_local_notifications;
+
 class PushNotificationService {
+  var pref = MySharedPref();
   Future<void> setupInteractedMessage() async {
     await Firebase.initializeApp();
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
 
-    await FirebaseMessaging.instance.getToken().then((value) => print('value===>>> $value'));
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      String? token = await messaging.getToken();
+      await MySharedPref()
+          .setString(SharePreData.keyFcmToken, token.toString());
+      // await StorageUtil.setData(StorageUtil.keyDeviceToken, token);
+      print('FirebaseMessaging token: $token');
+    }
+
+    // await FirebaseMessaging.instance.getToken().then((value) {
+
+    //   pref.setString(SharePreData.keyFcmToken, );
+    //   print('get fcm token===>>> $value');
+    // });
 // This function is called when ios app is opened, for android case `onDidReceiveNotificationResponse` function is called
     FirebaseMessaging.onMessageOpenedApp.listen(
       (RemoteMessage message) {
@@ -21,24 +42,30 @@ class PushNotificationService {
 
   Future<void> registerNotificationListeners() async {
     final AndroidNotificationChannel channel = androidNotificationChannel();
-    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
-    const AndroidInitializationSettings androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const DarwinInitializationSettings iOSSettings = DarwinInitializationSettings(
+    const AndroidInitializationSettings androidSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const DarwinInitializationSettings iOSSettings =
+        DarwinInitializationSettings(
       requestSoundPermission: false,
       requestBadgePermission: false,
       requestAlertPermission: false,
     );
-    const InitializationSettings initSettings = InitializationSettings(android: androidSettings, iOS: iOSSettings);
+    const InitializationSettings initSettings =
+        InitializationSettings(android: androidSettings, iOS: iOSSettings);
     flutterLocalNotificationsPlugin.initialize(
       initSettings,
       onDidReceiveNotificationResponse: (NotificationResponse details) {
 // We're receiving the payload as string that looks like this
 // {buttontext: Button Text, subtitle: Subtitle, imageurl: , typevalue: 14, type: course_details}
 // So the code below is used to convert string to map and read whatever property you want
-        final List<String> str = details.payload!.replaceAll('{', '').replaceAll('}', '').split(',');
+        final List<String> str =
+            details.payload!.replaceAll('{', '').replaceAll('}', '').split(',');
         final Map<String, dynamic> result = <String, dynamic>{};
         for (int i = 0; i < str.length; i++) {
           final List<String> s = str[i].split(':');
@@ -77,17 +104,20 @@ class PushNotificationService {
   }
 
   Future<void> enableIOSNotifications() async {
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       alert: true, // Required to display a heads up notification
       badge: true,
       sound: true,
     );
   }
 
-  AndroidNotificationChannel androidNotificationChannel() => const AndroidNotificationChannel(
+  AndroidNotificationChannel androidNotificationChannel() =>
+      const AndroidNotificationChannel(
         'high_importance_channel', // id
         'High Importance Notifications', // title
-        description: 'This channel is used for important notifications.', // description
+        description:
+            'This channel is used for important notifications.', // description
         importance: Importance.max,
       );
 }

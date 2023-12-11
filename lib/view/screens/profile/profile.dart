@@ -81,7 +81,7 @@ class _ProfileState extends State<Profile> {
                         textAlign: TextAlign.left,
                       ),
                       Text(
-                        profileModel?.data?.first.username ?? '',
+                        profileModel?.data?.first.name ?? '',
                         style: TextStyle(
                             color: blackColor,
                             fontSize: 28,
@@ -121,7 +121,12 @@ class _ProfileState extends State<Profile> {
                                                       .data?.first.username,
                                                   email: profileModel
                                                       .data?.first.email,
-                                                )));
+                                                ))).then((value) {
+                                      setState(() {
+                                        ProfileController()
+                                            .profile(setState: setState);
+                                      });
+                                    });
                                   },
                                   child: Text(
                                     'Account Info',

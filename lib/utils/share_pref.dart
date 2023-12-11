@@ -14,7 +14,7 @@ class SharePreData {
   static String keySignupModel = "key_SaveSignupModel";
   static String keytoken = "key_SaveToken";
   static String keyKeepLogin = "keep_login";
-
+  static String keyFcmToken = "FcmToken";
 }
 
 // ignore_for_file: file_names

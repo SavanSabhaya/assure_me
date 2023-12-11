@@ -12,6 +12,8 @@ import 'package:intl/intl.dart';
 
 String startingDate = '';
 String endingDate = '';
+String dropdownDate = '';
+String dropdownDateFormat = '';
 
 class CustomCalendar extends StatefulWidget {
   String? isFrom;
@@ -23,12 +25,17 @@ class CustomCalendar extends StatefulWidget {
 
 class _CustomCalendarState extends State<CustomCalendar> {
   final _formKey = GlobalKey<FormState>();
+  bool isSelected = false;
 
   DateTime today = DateTime.now();
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
       if (widget.isFrom == 'start') {
         startingDate = DateFormat('yyyy-MM-dd').format(day);
+      } else if (widget.isFrom == 'dropdown') {
+        dropdownDate = DateFormat(isSelected == true ? 'dd-MM-yyyy' : 'dd MMM')
+            .format(day);
+        // dropdownDate = DateFormat('dd MMM').format(day);
       } else {
         endingDate = DateFormat('yyyy-MM-dd').format(day);
       }
@@ -114,11 +121,15 @@ class _CustomCalendarState extends State<CustomCalendar> {
                           radius: 30,
                           child: ElevatedButton(
                             onPressed: () {
-                              if (widget.isFrom == 'start') {
-                                Navigator.pop(context, startingDate);
-                              } else {
-                                Navigator.pop(context, endingDate);
-                              }
+                              setState(() {
+                                if (widget.isFrom == 'start') {
+                                  Navigator.pop(context, startingDate);
+                                } else if (widget.isFrom == 'dropdown') {
+                                  Navigator.pop(context, dropdownDate);
+                                } else {
+                                  Navigator.pop(context, endingDate);
+                                }
+                              });
                             },
                             child: Icon(
                               Icons.check,

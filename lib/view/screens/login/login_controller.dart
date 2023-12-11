@@ -22,12 +22,14 @@ class LoginController {
   loginApi(
       {required String emailAddress,
       required String password,
+      required String token,
       BuildContext? context,
       setState}) async {
     String url = ApiConstant.BASE_URL + ApiConstant.login;
     Map<String, String> params = {
       'email': emailAddress,
       'password': password,
+      'device_token': token
     };
     EasyLoading.show();
 
@@ -39,7 +41,7 @@ class LoginController {
           EasyLoading.dismiss();
           loginModel = LoginModel.fromJson(value);
           tokens = loginModel?.data?.token ?? '';
-          bearerToken=loginModel?.data?.token ?? '';
+          bearerToken = loginModel?.data?.token ?? '';
           preferences.setString(
               SharePreData.keytoken, loginModel?.data?.token.toString() ?? '');
           Logger().d(loginModel?.data?.token);

@@ -4,6 +4,8 @@ import 'package:assure_me/api_%20service/api_constant.dart';
 import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
 import 'package:assure_me/view/screens/dashboard/home_page.dart';
+import 'package:assure_me/view/screens/dashboard/main_menu_detail/store_name_detail.dart';
+import 'package:assure_me/view/screens/dashboard/model/chartmodel.dart';
 import 'package:assure_me/view/screens/dashboard/model/deviceList_model.dart';
 import 'package:assure_me/view/screens/dashboard/model/notification_model.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ import 'package:logger/logger.dart';
 
 DeviceListModel deviceListModel = DeviceListModel();
 NotificationModel notificationModel = NotificationModel();
+ChartDataModel chartDataModel = ChartDataModel();
 
 class DashbordController {
   var preferences = MySharedPref();
@@ -100,6 +103,51 @@ class DashbordController {
         }
       } catch (e) {
         print(e);
+      }
+    });
+  }
+
+  chartDataApi(String? deviceId, String date,
+      {BuildContext? context, setState}) async {
+    String url = ApiConstant.BASE_URL + ApiConstant.chartReport;
+
+    EasyLoading.show();
+    Map<dynamic, dynamic> data = {
+      "device_id": deviceId,
+      "search_date": date,
+    };
+    print('date param ===>$data');
+
+    await apiReq
+        .getPostApiTokenResponse(
+      url: url,
+      data: jsonEncode(data),
+    )
+        .then((value) async {
+      try {
+        Logger().d('get code==>123');
+
+        if (value['startus'] == 200) {
+          Logger().d('get code==>456');
+
+          setState(() {
+            chartDataModel = ChartDataModel.fromJson(value);
+            Logger().d('get code==>chart data $value');
+          });
+          for (int i = 0; i < chartDataModel.data!.length; i++) {
+            chartData.add(
+                ChartData(i.toString(), double.parse(chartDataModel.data![i])));
+          }
+          // Navigator.push(
+          //     context!, MaterialPageRoute(builder: (context) => HomePage()));
+          EasyLoading.dismiss().then((value) {});
+        } else {
+          EasyLoading.dismiss();
+          Logger().d('get code==>$value');
+        }
+      } catch (e) {
+        print(e);
+        EasyLoading.dismiss();
       }
     });
   }

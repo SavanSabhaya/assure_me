@@ -32,6 +32,8 @@ class _LogInState extends State<LogIn> {
   final _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
+  String tokens = '';
+
   bool _showPassword = false;
   MySharedPref preferences = MySharedPref();
 
@@ -43,6 +45,11 @@ class _LogInState extends State<LogIn> {
 
     preferences.getStringValue(SharePreData.keytoken).then((token) {
       print('=====> get token $token');
+    });
+
+    preferences.getStringValue(SharePreData.keyFcmToken).then((token) {
+      tokens = token;
+      print('=====>FCM get token $token');
     });
   }
 
@@ -269,6 +276,7 @@ class _LogInState extends State<LogIn> {
                                     LoginController().loginApi(
                                         emailAddress: emailAddress.text,
                                         password: password.text,
+                                        token: tokens,
                                         context: context);
                                   }
                                 },

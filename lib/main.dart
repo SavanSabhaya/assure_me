@@ -13,8 +13,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PushNotificationService().setupInteractedMessage();
   // await Firebase.initializeApp();
-  String? token = await FirebaseMessaging.instance.getToken();
-  print('get token ======> $token');
+  // String? token = await FirebaseMessaging.instance.getToken();
+  // print('get token ======> $token');
   await Permission.notification.isDenied.then(
     (bool value) {
       if (value) {
@@ -24,6 +24,7 @@ void main() async {
   );
 
   runApp(MyApp());
+  configLoading();
 }
 
 void configLoading() {

@@ -44,12 +44,13 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   Future<void> updateProfile(
       {String? bearerToken1, String? newName, String? newEmail}) async {
-    String url = ApiConstant.BASE_URL + ApiConstant.logout;
+    String url = ApiConstant.BASE_URL + ApiConstant.updateProfile;
     final Map<String, dynamic> bodyParams = {
       'name': newName,
       'email': newEmail,
       // Add any other parameters you want to update in the profile
     };
+    print('get body for edit profile ${bodyParams}');
     EasyLoading.show();
     final http.Response response = await http.post(
       Uri.parse(url),
@@ -61,7 +62,6 @@ class _ProfileEditState extends State<ProfileEdit> {
     );
 
     if (response.statusCode == 200) {
-
       print('Profile updated successfully${response.body}');
       EasyLoading.dismiss();
       Navigator.pop(context);
@@ -249,9 +249,11 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     /* ProfileController().profileEdit(
                                         firstnameController.text,
                                         emailController.text); */
-                                    updateProfile(
-                                        newEmail: firstnameController.text,
-                                        newName: emailController.text);
+                                    setState(() {
+                                      updateProfile(
+                                          newEmail: emailController.text,
+                                          newName: firstnameController.text);
+                                    });
                                   },
                                   child: Text(
                                     'Go Back',

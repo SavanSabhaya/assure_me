@@ -1,4 +1,5 @@
 import 'package:assure_me/constant.dart';
+import 'package:assure_me/view/screens/dashboard/dashbord_controller.dart';
 import 'package:assure_me/view/screens/dashboard/model/deviceList_model.dart';
 import 'package:assure_me/view/screens/profile/profile_controller.dart';
 import 'package:assure_me/view/screens/reports/report_send.dart';
@@ -15,6 +16,8 @@ import 'dart:convert';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+List<ChartData> chartData = [];
+
 class StoreNameDetail extends StatefulWidget {
   DatumTemp? data;
   StoreNameDetail({this.data});
@@ -25,9 +28,26 @@ class StoreNameDetail extends StatefulWidget {
 
 class _StoreNameDetailState extends State<StoreNameDetail> {
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    print("=====> get id${widget.data?.deviceId}");
+    print("=====> get dropdownDate===${dropdownDate}");
+
+    DashbordController()
+        .chartDataApi(widget.data?.deviceId, dropdownDate, setState: setState);
+  }
+
   // String _fname = '';
   // String _lname = '';
   // String _email = '';
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    chartData.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,10 +131,23 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CustomCalendar()));
+                              setState(() {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CustomCalendar(
+                                              isFrom: 'dropdown',
+                                            ))).then((value) {
+                                  setState(() {
+                                    chartData.clear();
+                                    dropdownDate = value;
+                                    DashbordController().chartDataApi(
+                                        widget.data?.deviceId, dropdownDate,
+                                        setState: setState);
+                                    print("dropdownDate===${dropdownDate}");
+                                  });
+                                });
+                              });
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -124,7 +157,9 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                               child: Row(
                                 children: [
                                   Text(
-                                    "13 Nov",
+                                    dropdownDate == ''
+                                        ? "Select Date"
+                                        : dropdownDate,
                                     style: TextStyle(
                                         color: blackColor,
                                         fontSize: dfFontSize,
@@ -266,25 +301,38 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                       ),
                     ),
                     //Graph
-
                     Container(
                       child: SfCartesianChart(
-                        primaryXAxis: CategoryAxis(),
+                        primaryXAxis: CategoryAxis(
+                            labelStyle: TextStyle(color: Colors.transparent)),
                         series: <ChartSeries>[
                           SplineSeries<ChartData, String>(
-                            dataSource: <ChartData>[
-                              ChartData('Jan', 10),
-                              ChartData('Feb', 20),
-                              ChartData('Mar', 15),
-                              ChartData('Apr', 25),
-                              ChartData('May', 30),
-                            ],
+                            dataSource: chartData,
                             xValueMapper: (ChartData sales, _) => sales.month,
                             yValueMapper: (ChartData sales, _) => sales.sales,
                           ),
                         ],
                       ),
                     ),
+
+                    // Container(
+                    //   child: SfCartesianChart(
+                    //     primaryXAxis: CategoryAxis(),
+                    //     series: <ChartSeries>[
+                    //       SplineSeries<ChartData, String>(
+                    //         dataSource: <ChartData>[
+                    //           ChartData('1', 10),
+                    //           ChartData('2', 20),
+                    //           ChartData('3', 15),
+                    //           ChartData('4', 25),
+                    //           ChartData('5', 30),
+                    //         ],
+                    //         xValueMapper: (ChartData sales, _) => sales.month,
+                    //         yValueMapper: (ChartData sales, _) => sales.sales,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
 
                     Container(
                       margin:
