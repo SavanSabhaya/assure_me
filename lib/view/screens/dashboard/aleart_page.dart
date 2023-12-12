@@ -36,41 +36,41 @@ class _AlertsPageState extends State<AlertsPage> {
     double scWidth = MediaQuery.of(context).size.width;
     double scHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(
+          "Alerts",
+          style: TextStyle(
+              color: blackColor,
+              fontSize: lgFontSize,
+              fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+        centerTitle: true,
+      ),
       body: Container(
         height: scHeight,
         // decoration: BoxDecoration(gradient: applg),
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 25),
-          // alignment: Alignment.center,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                alignment: Alignment.center,
-                // width: scWidth / 3,
-                margin: EdgeInsets.only(top: scHeight / 15),
+        child: notificationModel.statusCode != 200
+            ? Center(
                 child: Text(
-                  "Alerts",
+                  'No Alerts Found',
                   style: TextStyle(
                       color: blackColor,
                       fontSize: lgFontSize,
                       fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-              Expanded(
+              )
+            : Expanded(
                 child: ListView.builder(
                   physics: AlwaysScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return AlertCard(notificationModel.data![index]);
                   },
-                  itemCount: notificationModel.data?.length,
+                  itemCount: 3,
                 ),
-              )
-            ],
-          ),
-        ),
+              ),
       ),
     );
   }

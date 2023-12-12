@@ -48,6 +48,7 @@ class DatumTemp {
   int? id;
   String? userId;
   String? deviceId;
+  String? deviceName;
   String? deviceMaxTemperature;
   String? deviceMinTemperature;
   DateTime? createdAt;
@@ -58,6 +59,7 @@ class DatumTemp {
     this.id,
     this.userId,
     this.deviceId,
+    this.deviceName,
     this.deviceMaxTemperature,
     this.deviceMinTemperature,
     this.createdAt,
@@ -69,6 +71,7 @@ class DatumTemp {
         id: json["id"],
         userId: json["user_id"],
         deviceId: json["device_id"],
+        deviceName: json["device_name"],
         deviceMaxTemperature: json["device_max_Temperature"],
         deviceMinTemperature: json["device_min_Temperature"],
         createdAt: json["created_at"] == null
@@ -84,6 +87,7 @@ class DatumTemp {
         "id": id,
         "user_id": userId,
         "device_id": deviceId,
+        "device_name": deviceName,
         "device_max_Temperature": deviceMaxTemperature,
         "device_min_Temperature": deviceMinTemperature,
         "created_at": createdAt?.toIso8601String(),

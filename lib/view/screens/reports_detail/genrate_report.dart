@@ -137,7 +137,7 @@ class _GenrateReportState extends State<GenrateReport> {
                   margin: EdgeInsets.only(
                       bottom: scHeight / 15, top: scHeight / 25),
                   child: Text(
-                    "Genrate Report",
+                    "Generate Report",
                     style: TextStyle(
                         color: blackColor,
                         fontSize: 28,
@@ -396,23 +396,23 @@ class _GenrateReportState extends State<GenrateReport> {
                                               deviceId: widget.data?.deviceId)
                                           .then((value) async {
                                         var getpath;
-                                        setState(()async {
-                                          var getpath =
-                                             await generatePDF(reportModel.data);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PDFViewerPage(
-                                                      pdfPath:
-                                                          getpath.toString(),
-                                                    )));
+                                        setState(() async {
+                                          var getpath = await generatePDF(
+                                              reportModel.data);
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PDFViewerPage(
+                                                        pdfPath:
+                                                            getpath.toString(),
+                                                      )));
                                         });
                                       });
                                     }
                                   },
                                   child: Text(
-                                    'Genrate Report',
+                                    'Generate Report',
                                     style: TextStyle(
                                         color: dfColor,
                                         fontSize: dfFontSize,

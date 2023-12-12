@@ -41,9 +41,9 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
     setState(() {
       var todayDate = DateFormat('yyyy-MM-dd').format(today);
 
-    DashbordController().chartDataApi(
-        widget.data?.deviceId, dropdownDate == null||dropdownDate == '' ? todayDate : dropdownDate,
-        setState: setState);
+      DashbordController().chartDataApi(widget.data?.deviceId,
+          dropdownDate == null || dropdownDate == '' ? todayDate : dropdownDate,
+          setState: setState);
     });
   }
 
@@ -367,15 +367,16 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              GenrateReport(data: widget.data,)));
+                                          builder: (context) => GenrateReport(
+                                                data: widget.data,
+                                              )));
                                   setState(() {
                                     startingDate = '';
                                     endingDate = '';
                                   });
                                 },
                                 child: Text(
-                                  'Genrate Report',
+                                  'Generate Report',
                                   style: TextStyle(
                                       color: dfColor,
                                       fontSize: dfFontSize,

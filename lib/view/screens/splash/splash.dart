@@ -4,6 +4,7 @@ import 'package:assure_me/constant.dart';
 import 'package:assure_me/routes/routes.dart';
 import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
+import 'package:assure_me/view/screens/dashboard/aleart_page.dart';
 import 'package:assure_me/view/screens/dashboard/home_page.dart';
 import 'package:assure_me/view/screens/login/login.dart';
 import 'package:assure_me/view/screens/password/code.dart';
@@ -49,6 +50,8 @@ class _SplashState extends State<Splash> {
   Future<void> checkSessionStatus() async {
     if (keepLogin) {
       if (bearerToken == '') {
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => AlertsPage()));
         Navigator.pushNamed(context, AppRoutes.login);
       } else {
         Navigator.pushNamed(context, AppRoutes.homepage);

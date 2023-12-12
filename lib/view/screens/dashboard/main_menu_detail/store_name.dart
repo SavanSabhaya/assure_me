@@ -147,7 +147,7 @@ class AlertCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    profileModel.data?.first.name ?? '',
+                    data?.deviceName ?? '',
                     style: TextStyle(
                         color: dfColor,
                         fontSize: lgFontSize,

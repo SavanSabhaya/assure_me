@@ -100,6 +100,11 @@ class DashbordController {
           });
           Logger().d('get code==>$value');
           EasyLoading.dismiss().then((value) {});
+        } else {
+          setState(() {
+            notificationModel = NotificationModel.fromJson(value);
+          });
+          EasyLoading.dismiss().then((value) {});
         }
       } catch (e) {
         print(e);

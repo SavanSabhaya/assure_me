@@ -3,20 +3,30 @@ import 'package:assure_me/view/screens/reports_detail/report_model.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
+import 'package:intl/intl.dart';
 
-Future<String> generatePDF(List<Datum>? data) async {
+Future<String> generatePDF(List<Data>? data) async {
   final pdf = pw.Document();
 
   pdf.addPage(pw.MultiPage(
     build: (context) => [
       pw.Table.fromTextArray(context: context, data: <List<String>>[
-        ['ID', 'Device ID', 'Temperature', 'Alarm'],
+        [
+          'Id',
+          'Device Name',
+          'Business Name',
+          'Device Id',
+          'Temperature',
+          'Date & Time',
+        ],
         for (final record in data!)
           [
             record.id.toString(),
+            record.device?.deviceName.toString() ?? '',
+            record.user?.name.toString() ?? '',
             record.deviceId.toString(),
             record.temperature.toString(),
-            record.alarm.toString(),
+            DateFormat('dd-MM-yyyy  HH:mm').format(record.createdAt!),
           ],
       ]),
     ],
