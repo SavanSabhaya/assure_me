@@ -5,6 +5,7 @@ import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
 import 'package:assure_me/view/screens/login/login_controller.dart';
 import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -16,6 +17,8 @@ import 'package:roundcheckbox/roundcheckbox.dart';
 import 'dart:io' show HttpHeaders, Platform;
 import '../../../constant.dart';
 import 'dart:convert';
+
+String tokens = '';
 
 class LogIn extends StatefulWidget {
   static const routeName = '/login';
@@ -32,10 +35,10 @@ class _LogInState extends State<LogIn> {
   final _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
-  String tokens = '';
 
   bool _showPassword = false;
   MySharedPref preferences = MySharedPref();
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   @override
   void initState() {
@@ -44,12 +47,18 @@ class _LogInState extends State<LogIn> {
     // password.text = 'Test@123';
 
     preferences.getStringValue(SharePreData.keytoken).then((token) {
-      print('=====> get token $token');
+      print('bearer token =====> $token');
     });
-
-    preferences.getStringValue(SharePreData.keyFcmToken).then((token) {
-      tokens = token;
-      print('=====>FCM get token $token');
+    setState(() {
+      preferences.getStringValue(SharePreData.keyFcmToken).then((token) async {
+        if (token != null||token!='') {
+          tokens = token;
+          print('FCM token pref =====> $tokens');
+        } else {
+          tokens = (await messaging.getToken())!;
+          print('FCM token firebase =====> $tokens');
+        }
+      });
     });
   }
 

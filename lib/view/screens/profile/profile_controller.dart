@@ -10,6 +10,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:logger/logger.dart';
 
 ProfileModel profileModel = ProfileModel();
+String globleFCMToken = '';
 
 class ProfileController {
   var preferences = MySharedPref();
@@ -82,9 +83,13 @@ class ProfileController {
         .then((value) async {
       try {
         if (value['status_code'] == 200) {
-          EasyLoading.dismiss().then((value) {
-            preferences.clear();
-            Navigator.pushNamed(context!, AppRoutes.login);
+          EasyLoading.dismiss().then((value) async {
+            globleFCMToken =
+                await preferences.getStringValue(SharePreData.keyFcmToken);
+            await preferences.clear();
+            preferences.setString(SharePreData.keyFcmToken, globleFCMToken);
+            await Navigator.pushNamedAndRemoveUntil(
+                context!, AppRoutes.login, (route) => true);
           });
         }
       } catch (e) {

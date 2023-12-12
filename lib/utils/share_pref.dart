@@ -22,6 +22,7 @@ class SharePreData {
 //main methods for api
 class NetworkApiService {
   var preferences = MySharedPref();
+  
   @override
   Future getGetApiResponse(String url) async {
     dynamic responseJson;

@@ -57,8 +57,10 @@ class _GenrateReportState extends State<GenrateReport> {
     final Map<String, dynamic> bodyParams = {
       "start_date": startDate,
       "end_date": endDate,
-      "device_id": widget.data?.deviceId
+      "device_id": deviceId
     };
+
+    print('generate report body==$bodyParams');
     EasyLoading.show();
     final http.Response response = await http
         .post(
@@ -390,19 +392,21 @@ class _GenrateReportState extends State<GenrateReport> {
                                       editValuesApi(
                                               startDate:
                                                   startDateController.text,
-                                              endDate: endDateController.text)
+                                              endDate: endDateController.text,
+                                              deviceId: widget.data?.deviceId)
                                           .then((value) async {
-                                        setState(() async {
-                                          var getpath = await generatePDF(
-                                              reportModel.data);
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PDFViewerPage(
-                                                        pdfPath:
-                                                            getpath.toString(),
-                                                      )));
+                                        var getpath;
+                                        setState(()async {
+                                          var getpath =
+                                             await generatePDF(reportModel.data);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PDFViewerPage(
+                                                      pdfPath:
+                                                          getpath.toString(),
+                                                    )));
                                         });
                                       });
                                     }

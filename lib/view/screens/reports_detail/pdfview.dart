@@ -22,7 +22,7 @@ class PDFViewerPage extends StatelessWidget {
             },
             child: Icon(Icons.arrow_back_rounded)),
         // actions: [Icon(Icons.arrow_back_rounded)],
-        title: Text('PDF Viewer'),
+        title: Text('Report'),
       ),
       body: PDFView(
         filePath: pdfPath,

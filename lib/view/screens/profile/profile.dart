@@ -190,45 +190,45 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         ///////////////////
-                        Container(
-                          margin: EdgeInsets.only(top: 5),
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                  bottom: 30,
-                                ),
-                                decoration: BoxDecoration(
-                                    gradient: lgBlue,
-                                    borderRadius: BorderRadius.circular(20)),
-                                width: scWidth,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => News()));
-                                  },
-                                  child: Text(
-                                    'News',
-                                    style: TextStyle(
-                                        color: dfColor,
-                                        fontSize: dfFontSize,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    elevation: 0,
-                                    padding: EdgeInsets.symmetric(vertical: 18),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // Container(
+                        //   margin: EdgeInsets.only(top: 5),
+                        //   child: Column(
+                        //     children: [
+                        //       Container(
+                        //         margin: EdgeInsets.only(
+                        //           bottom: 30,
+                        //         ),
+                        //         decoration: BoxDecoration(
+                        //             gradient: lgBlue,
+                        //             borderRadius: BorderRadius.circular(20)),
+                        //         width: scWidth,
+                        //         child: ElevatedButton(
+                        //           onPressed: () {
+                        //             Navigator.push(
+                        //                 context,
+                        //                 MaterialPageRoute(
+                        //                     builder: (context) => News()));
+                        //           },
+                        //           child: Text(
+                        //             'News',
+                        //             style: TextStyle(
+                        //                 color: dfColor,
+                        //                 fontSize: dfFontSize,
+                        //                 fontWeight: FontWeight.bold),
+                        //           ),
+                        //           style: ElevatedButton.styleFrom(
+                        //             backgroundColor: Colors.transparent,
+                        //             elevation: 0,
+                        //             padding: EdgeInsets.symmetric(vertical: 18),
+                        //             shape: RoundedRectangleBorder(
+                        //               borderRadius: BorderRadius.circular(20),
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
 
                         Container(
                           margin: EdgeInsets.only(top: scHeight / 8),

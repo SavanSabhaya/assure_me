@@ -1,5 +1,6 @@
 import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
+import 'package:assure_me/view/screens/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -18,7 +19,9 @@ class PushNotificationService {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+
       String? token = await messaging.getToken();
+      tokens=token!;
       await MySharedPref()
           .setString(SharePreData.keyFcmToken, token.toString());
       // await StorageUtil.setData(StorageUtil.keyDeviceToken, token);

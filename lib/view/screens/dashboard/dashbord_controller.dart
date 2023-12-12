@@ -132,7 +132,7 @@ class DashbordController {
 
           setState(() {
             chartDataModel = ChartDataModel.fromJson(value);
-            Logger().d('get code==>chart data $value');
+            print('get code==>chart data $value');
           });
           for (int i = 0; i < chartDataModel.data!.length; i++) {
             chartData.add(

@@ -170,7 +170,7 @@ class AlertCard extends StatelessWidget {
                   //       fontWeight: FontWeight.w700),
                   // ),
                   Text(
-                    "${data?.device?.temperature ?? ''}°F",
+                    "${data?.device?.temperature ?? ''}°C",
                     style: TextStyle(
                         color: dfColor,
                         fontSize: lgFontSize,
