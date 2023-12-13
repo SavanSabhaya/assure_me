@@ -68,7 +68,7 @@ class _AlertsPageState extends State<AlertsPage> {
                   itemBuilder: (context, index) {
                     return AlertCard(notificationModel.data![index]);
                   },
-                  itemCount: 3,
+                  itemCount: notificationModel.data?.length,
                 ),
               ),
       ),
