@@ -49,28 +49,26 @@ class _AlertsPageState extends State<AlertsPage> {
         centerTitle: true,
       ),
       body: Container(
-        height: scHeight,
-        // decoration: BoxDecoration(gradient: applg),
-        child: notificationModel.statusCode != 200
-            ? Center(
-                child: Text(
-                  'No Alerts Found',
-                  style: TextStyle(
-                      color: blackColor,
-                      fontSize: lgFontSize,
-                      fontWeight: FontWeight.bold),
-                ),
-              )
-            : Expanded(
-                child: ListView.builder(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return AlertCard(notificationModel.data![index]);
-                  },
-                  itemCount: notificationModel.data?.length,
-                ),
-              ),
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: ListView.builder(
+          physics: AlwaysScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: notificationModel.data?.length ?? 0,
+          itemBuilder: (context, index) {
+            return notificationModel.statusCode != 200
+                ? Center(
+                    child: Text(
+                      'No Alerts Found',
+                      style: TextStyle(
+                          color: blackColor,
+                          fontSize: lgFontSize,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
+                : AlertCard(notificationModel.data![index]);
+          },
+        ),
       ),
     );
   }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "700423906388",
+    "project_id": "assureme-e7cd5",
+    "storage_bucket": "assureme-e7cd5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700423906388:android:cf9c0d15a503f0e38379c1",
+        "android_client_info": {
+          "package_name": "com.application.assureme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe1Ivdx_iTQe6t9dGHmlPkVR9633yvE6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
