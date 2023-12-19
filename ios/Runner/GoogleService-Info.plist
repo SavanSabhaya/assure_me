@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.application.assureme</string>
+	<string>com.app.assuremeapp</string>
 	<key>PROJECT_ID</key>
 	<string>assureme-e7cd5</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:700423906388:ios:f0662e6fd61198868379c1</string>
+	<string>1:700423906388:ios:f91603e623fcc5858379c1</string>
 </dict>
 </plist>
