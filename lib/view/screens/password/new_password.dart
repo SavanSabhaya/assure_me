@@ -187,7 +187,10 @@ class _NewPasswordState extends State<NewPassword> {
                                         newPassword.text == '') {
                                       awesomeTopSnackbar(
                                           context, 'enter Password');
-                                    } else {
+                                    }else if(confirmpassword.text.length<6||newPassword.text.length<6){
+                                    awesomeTopSnackbar(
+                                        context, 'Password must be at least 6 characters long');
+                                  } else {
                                       PasswordController().resetPassword(
                                           password: confirmpassword.text,
                                           context: context);

@@ -89,7 +89,7 @@ class ProfileController {
             await preferences.clear();
             preferences.setString(SharePreData.keyFcmToken, globleFCMToken);
             await Navigator.pushNamedAndRemoveUntil(
-                context!, AppRoutes.login, (route) => true);
+                context!, AppRoutes.login, (route) => false);
           });
         }
       } catch (e) {

@@ -281,7 +281,10 @@ class _LogInState extends State<LogIn> {
                                       password.text == '') {
                                     awesomeTopSnackbar(
                                         context, 'please enter detail');
-                                  } else {
+                                  } else if(password.text.length<6){
+                                    awesomeTopSnackbar(
+                                        context, 'Password must be at least 6 characters long');
+                                  }else {
                                     LoginController().loginApi(
                                         emailAddress: emailAddress.text,
                                         password: password.text,
