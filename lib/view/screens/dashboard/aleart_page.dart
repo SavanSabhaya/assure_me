@@ -141,13 +141,13 @@ class AlertCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    subtitle: Text(
-                      "The device (device Name) & (store name) has reached its maximum temperature!",
-                      style: TextStyle(
-                          color: drakGreyColor,
-                          fontSize: exXSmFontSize,
-                          fontWeight: FontWeight.w600),
-                    ),
+                    // subtitle: Text(
+                    //   "The device (device Name) & (store name) has reached its maximum temperature!",
+                    //   style: TextStyle(
+                    //       color: drakGreyColor,
+                    //       fontSize: exXSmFontSize,
+                    //       fontWeight: FontWeight.w600),
+                    // ),
                     // trailing: Text(
                     //   "12:31",
                     //   style: TextStyle(

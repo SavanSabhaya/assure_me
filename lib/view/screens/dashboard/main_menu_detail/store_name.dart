@@ -162,13 +162,22 @@ class AlertCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  // Text(
-                  //   "Device Location",
-                  //   style: TextStyle(
-                  //       color: dfColor,
-                  //       fontSize: exXSmFontSize,
-                  //       fontWeight: FontWeight.w700),
-                  // ),
+                  data?.status == 1
+                      ? Text(
+                          "Online",
+                          style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        )
+                      : Text(
+                          "Ofline",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700),
+                        ),
+                  Spacer(),
                   Text(
                     "${data?.device?.temperature ?? ''}°C",
                     style: TextStyle(
