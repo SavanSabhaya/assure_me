@@ -51,7 +51,7 @@ class _LogInState extends State<LogIn> {
     });
     setState(() {
       preferences.getStringValue(SharePreData.keyFcmToken).then((token) async {
-        if (token != null||token!='') {
+        if (token != null || token != '') {
           tokens = token;
           print('FCM token pref =====> $tokens');
         } else {
@@ -277,7 +277,26 @@ class _LogInState extends State<LogIn> {
                               width: scWidth,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  if (emailAddress.text == '' ||
+                                  /* showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Alert"),
+                                        content: Text(
+                                            "Your alert message goes here."),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(
+                                                  context); // Close the dialog
+                                            },
+                                            child: Text("OK"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ); */
+                                   if (emailAddress.text == '' ||
                                       password.text == '') {
                                     awesomeTopSnackbar(
                                         context, 'please enter detail');

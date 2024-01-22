@@ -103,6 +103,7 @@ class NetworkApiService {
       });
     }
     var response = await post(Uri.parse(url), headers: header, body: data);
+    print('body===>$data');
 
     if (response.statusCode == 200) {
       print("data profile is readyfor up to date===>>>> if");

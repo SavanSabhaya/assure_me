@@ -14,4 +14,5 @@ class ApiConstant {
   static const String dateReport = 'api/Date-Report';
   static const String notification = 'api/Notification';
   static const String chartReport = 'api/chart-Report';
+  static const String offlineNotification = 'api/Offline-notification';
 }

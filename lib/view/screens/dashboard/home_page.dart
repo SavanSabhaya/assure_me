@@ -1,4 +1,5 @@
 import 'package:assure_me/constant.dart';
+import 'package:assure_me/routes/routes.dart';
 import 'package:assure_me/view/screens/dashboard/aleart_page.dart';
 import 'package:assure_me/view/screens/dashboard/main_menu.dart';
 import 'package:assure_me/view/screens/password/change_password.dart';
@@ -9,8 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -34,7 +33,10 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     ProfileController().profile(setState: setState);
+    ProfileController().deviceList(context: context ,setState: setState);
+    // getOfflineAleart();
   }
+
 
   @override
   Widget build(BuildContext context) {

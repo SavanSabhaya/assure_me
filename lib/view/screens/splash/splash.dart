@@ -6,10 +6,12 @@ import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
 import 'package:assure_me/view/screens/dashboard/aleart_page.dart';
 import 'package:assure_me/view/screens/dashboard/home_page.dart';
+import 'package:assure_me/view/screens/dashboard/model/deviceList_model.dart';
 import 'package:assure_me/view/screens/login/login.dart';
 import 'package:assure_me/view/screens/password/code.dart';
 import 'package:assure_me/view/screens/password/forgot_password.dart';
 import 'package:assure_me/view/screens/password/new_password.dart';
+import 'package:assure_me/view/screens/splash/splash_controller.dart';
 import 'package:assure_me/view/widgets/grident_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +28,9 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
   var preferences = MySharedPref();
+  SplashContrller splashContrller = SplashContrller();
+  dynamic deviceListModel;
+
   @override
   void initState() {
     super.initState();
@@ -44,7 +49,10 @@ class _SplashState extends State<Splash> {
         });
       }
     });
-    Timer(const Duration(seconds: 4), () => checkSessionStatus());
+    // splashContrller.deviceList(context: context, setState: setState);
+    Timer(const Duration(seconds: 4), () {
+      checkSessionStatus();
+    });
   }
 
   Future<void> checkSessionStatus() async {
@@ -54,6 +62,33 @@ class _SplashState extends State<Splash> {
         //     context, MaterialPageRoute(builder: (context) => AlertsPage()));
         Navigator.pushNamed(context, AppRoutes.login);
       } else {
+        // splashContrller.deviceList(context: context, setState: setState);
+        // print(
+        // 'get device list ===>>${splashContrller.deviceListModel.data?[0].deviceName}');
+        // for (var i = 0; i < splashContrller.deviceListModel.data!.length; i++) {
+        //   if (splashContrller.deviceListModel.data?[i].status == 0) {
+        //     showDialog(
+        //       context: context,
+        //       builder: (BuildContext context) {
+        //         return AlertDialog(
+        //           title: Text("Alert"),
+        //           content: Text(
+        //               "The ${splashContrller.deviceListModel.data?[i].deviceName} is offline at the moment."),
+        //           actions: [
+        //             TextButton(
+        //               onPressed: () {
+        //                 Navigator.pop(context);
+        //                 Navigator.pushNamed(context, AppRoutes.homepage);
+        //               },
+        //               child: Text("OK"),
+        //             ),
+        //           ],
+        //         );
+        //       },
+        //     );
+        //   }
+        // }
+
         Navigator.pushNamed(context, AppRoutes.homepage);
       }
     } else {
