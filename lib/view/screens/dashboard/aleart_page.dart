@@ -124,7 +124,7 @@ class AlertCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            data.message ?? '',
+                            data.title ?? '',
                             maxLines: 4,
                             style: TextStyle(
                                 color: blackColor,
@@ -159,7 +159,7 @@ class AlertCard extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(20),
                     width: scWidth / 1.3,
-                    height: scHeight / 13,
+                    // height: scHeight / 13,
                     decoration: BoxDecoration(
                         color: appcolor,
                         borderRadius: BorderRadius.circular(20)),
@@ -169,12 +169,15 @@ class AlertCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              data.packageId.toString(),
-                              style: TextStyle(
-                                  color: dfColor,
-                                  fontSize: dfFontSize,
-                                  fontWeight: FontWeight.w700),
+                            Expanded(
+                              child: Text(
+                                data.message .toString(),
+                                maxLines: 3,softWrap: true,overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: dfColor,
+                                    fontSize: dfFontSize,
+                                    fontWeight: FontWeight.w700),
+                              ),
                             ),
                             Icon(
                               Icons.arrow_outward_rounded,

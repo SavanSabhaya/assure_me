@@ -11,6 +11,8 @@ import 'package:assure_me/view/screens/dashboard/model/notification_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:logger/logger.dart';
+import 'package:intl/intl.dart';
+
 
 DeviceListModel deviceListModel = DeviceListModel();
 NotificationModel notificationModel = NotificationModel();
@@ -26,7 +28,6 @@ class DashbordController {
     EasyLoading.show();
 
     await apiReq
-    
         .getPostApiTokenResponse(
       url: url,
       data: jsonEncode({}),
@@ -133,17 +134,20 @@ class DashbordController {
       try {
         Logger().d('get code==>123');
 
-        if (value['startus'] == 200) {
+        if (value['status'] == 200) {
           Logger().d('get code==>456');
 
           setState(() {
             chartDataModel = ChartDataModel.fromJson(value);
             print('get code==>chart data $value');
+            for (int i = 0; i < chartDataModel.temperatureList!.length; i++) {
+              chartData.add(ChartData(
+                  DateFormat('HH:mm')
+                      .format(chartDataModel.createdAtList![i]),
+                  double.parse(chartDataModel.temperatureList![i].toString())));
+            }
           });
-          for (int i = 0; i < chartDataModel.data!.length; i++) {
-            chartData.add(
-                ChartData(i.toString(), double.parse(chartDataModel.data![i])));
-          }
+
           // Navigator.push(
           //     context!, MaterialPageRoute(builder: (context) => HomePage()));
           EasyLoading.dismiss().then((value) {});

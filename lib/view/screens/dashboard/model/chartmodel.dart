@@ -4,33 +4,34 @@
 
 import 'dart:convert';
 
-ChartDataModel chartDataModelFromJson(String str) =>
-    ChartDataModel.fromJson(json.decode(str));
+ChartDataModel chartDataModelFromJson(String str) => ChartDataModel.fromJson(json.decode(str));
 
 String chartDataModelToJson(ChartDataModel data) => json.encode(data.toJson());
 
 class ChartDataModel {
-  String? message;
-  int? startus;
-  List<String>? data;
+    String? message;
+    int? status;
+    List<DateTime>? createdAtList;
+    List<String>? temperatureList;
 
-  ChartDataModel({
-    this.message,
-    this.startus,
-    this.data,
-  });
+    ChartDataModel({
+        this.message,
+        this.status,
+        this.createdAtList,
+        this.temperatureList,
+    });
 
-  factory ChartDataModel.fromJson(Map<String, dynamic> json) => ChartDataModel(
+    factory ChartDataModel.fromJson(Map<String, dynamic> json) => ChartDataModel(
         message: json["message"],
-        startus: json["startus"],
-        data: json["data"] == null
-            ? []
-            : List<String>.from(json["data"]!.map((x) => x)),
-      );
+        status: json["status"],
+        createdAtList: json["created_at_list"] == null ? [] : List<DateTime>.from(json["created_at_list"]!.map((x) => DateTime.parse(x))),
+        temperatureList: json["temperature_list"] == null ? [] : List<String>.from(json["temperature_list"]!.map((x) => x)),
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "message": message,
-        "startus": startus,
-        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x)),
-      };
+        "status": status,
+        "created_at_list": createdAtList == null ? [] : List<dynamic>.from(createdAtList!.map((x) => x.toIso8601String())),
+        "temperature_list": temperatureList == null ? [] : List<dynamic>.from(temperatureList!.map((x) => x)),
+    };
 }

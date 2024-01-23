@@ -116,32 +116,32 @@ class _SplashState extends State<Splash> {
                   width: scWidth / 1.8,
                   // height: 220,
                 ),
-                Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "ASSURE",
-                      style: GoogleFonts.sofiaSansCondensed(
-                        textStyle: Theme.of(context).textTheme.displayLarge,
-                        fontSize: 60,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    GradientText(
-                      'ME',
-                      style: GoogleFonts.sofiaSansCondensed(
-                        textStyle: Theme.of(context).textTheme.displayLarge,
-                        fontSize: 60,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      gradient: LinearGradient(colors: [
-                        Colors.red.shade200,
-                        Colors.red.shade900,
-                      ]),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   // crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Text(
+                //       "ASSURE",
+                //       style: GoogleFonts.sofiaSansCondensed(
+                //         textStyle: Theme.of(context).textTheme.displayLarge,
+                //         fontSize: 60,
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //     ),
+                //     GradientText(
+                //       'ME',
+                //       style: GoogleFonts.sofiaSansCondensed(
+                //         textStyle: Theme.of(context).textTheme.displayLarge,
+                //         fontSize: 60,
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //       gradient: LinearGradient(colors: [
+                //         Colors.red.shade200,
+                //         Colors.red.shade900,
+                //       ]),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           )),

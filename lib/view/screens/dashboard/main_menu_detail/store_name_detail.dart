@@ -319,7 +319,7 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                       Container(
                         child: SfCartesianChart(
                           primaryXAxis: CategoryAxis(
-                              labelStyle: TextStyle(color: Colors.transparent)),
+                              labelStyle: TextStyle(color: Colors.black)),
                           series: <ChartSeries>[
                             SplineSeries<ChartData, String>(
                               dataSource: chartData,
