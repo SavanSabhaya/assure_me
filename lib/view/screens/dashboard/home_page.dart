@@ -40,48 +40,50 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      body: AnimatedContainer(
-        color: dfColor,
-        duration: const Duration(seconds: 1),
-        child: _buildBody[_selectedItemPosition],
-      ),
-      bottomNavigationBar: SnakeNavigationBar.color(
-        // height: 40,
-        behaviour: snakeBarStyle,
-        snakeShape: snakeShape,
-        shape: bottomBarShape,
-        padding: EdgeInsets.all(0),
-        snakeViewColor: appcolor,
-        selectedItemColor: snakeShape == SnakeShape.indicator ? appcolor : null,
-        unselectedItemColor: Colors.blueGrey,
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        currentIndex: _selectedItemPosition,
-        onTap: (index) => setState(() => _selectedItemPosition = index),
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home_outlined,
-                size: 35,
-              ),
-              label: 'home'),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.notifications_none_outlined,
-                size: 35,
-              ),
-              label: 'tickets'),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person_outline_outlined,
-                size: 35,
-              ),
-              label: 'search')
-        ],
-        selectedLabelStyle: const TextStyle(fontSize: 14),
-        unselectedLabelStyle: const TextStyle(fontSize: 10),
+    return SafeArea(
+      child: Scaffold(
+        extendBody: true,
+        body: AnimatedContainer(
+          color: dfColor,
+          duration: const Duration(seconds: 1),
+          child: _buildBody[_selectedItemPosition],
+        ),
+        bottomNavigationBar: SnakeNavigationBar.color(
+          // height: 40,
+          behaviour: snakeBarStyle,
+          snakeShape: snakeShape,
+          shape: bottomBarShape,
+          padding: EdgeInsets.all(0),
+          snakeViewColor: appcolor,
+          selectedItemColor: snakeShape == SnakeShape.indicator ? appcolor : null,
+          unselectedItemColor: Colors.blueGrey,
+          showUnselectedLabels: false,
+          showSelectedLabels: false,
+          currentIndex: _selectedItemPosition,
+          onTap: (index) => setState(() => _selectedItemPosition = index),
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home_outlined,
+                  size: 35,
+                ),
+                label: 'home'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.notifications_none_outlined,
+                  size: 35,
+                ),
+                label: 'tickets'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person_outline_outlined,
+                  size: 35,
+                ),
+                label: 'search')
+          ],
+          selectedLabelStyle: const TextStyle(fontSize: 14),
+          unselectedLabelStyle: const TextStyle(fontSize: 10),
+        ),
       ),
     );
   }

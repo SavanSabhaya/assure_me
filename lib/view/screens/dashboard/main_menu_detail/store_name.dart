@@ -171,7 +171,7 @@ class AlertCard extends StatelessWidget {
                               fontWeight: FontWeight.w700),
                         )
                       : Text(
-                          "Ofline",
+                          "Offline",
                           style: TextStyle(
                               color: Colors.red,
                               fontSize: 16,
