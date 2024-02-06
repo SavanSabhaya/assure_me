@@ -60,15 +60,16 @@ class _MainMenuState extends State<MainMenu> {
                 margin: EdgeInsets.only(top: scHeight / 25),
                 height: scHeight / 1.5,
                 child: SingleChildScrollView(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // ListView.builder(itemBuilder: (context, i) {
-                    //   return;
-                    // },itemCount: 2,),
-                    AlertCard(),
-                  ],
-                )),
+                    child: /* Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (context, i) {
+                      return AlertCard();
+                    },
+                    itemCount: profileModel.data?.subuser?.length ?? 0,
+                    shrinkWrap: true,
+                  ),
+                )*/
+                        AlertCard()),
               )
             ],
           ),
@@ -79,7 +80,8 @@ class _MainMenuState extends State<MainMenu> {
 }
 
 class AlertCard extends StatelessWidget {
-  const AlertCard({super.key});
+  int? index;
+  AlertCard({super.key, this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +90,13 @@ class AlertCard extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => StoreName()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => StoreName(
+                      userId: profileModel.data?.subuser != []
+                          ? profileModel.data?.subuser?.first.id.toString()
+                          : '',
+                    )));
       },
       style: ElevatedButton.styleFrom(
           elevation: 0,
@@ -107,7 +115,7 @@ class AlertCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              profileModel.data?.first.name ?? '',
+              profileModel.data?.name ?? '',
               style: TextStyle(
                   color: dfColor,
                   fontSize: exLgFontSize,

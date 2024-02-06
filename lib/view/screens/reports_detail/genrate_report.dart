@@ -47,7 +47,7 @@ class _GenrateReportState extends State<GenrateReport> {
       print('get dtating date ===>$startingDate');
       startDateController.text = startingDate;
       endDateController.text = endingDate;
-      emailController.text = profileModel.data?.first.email ?? '';
+      emailController.text = profileModel.data?.email ?? '';
     });
   }
 

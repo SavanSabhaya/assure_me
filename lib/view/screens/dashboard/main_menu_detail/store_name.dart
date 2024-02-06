@@ -12,6 +12,8 @@ import 'dart:io' show Platform;
 import 'dart:convert';
 
 class StoreName extends StatefulWidget {
+  String? userId;
+  StoreName({this.userId});
   static const routeName = '/StoreName';
   @override
   State<StoreName> createState() => _StoreNameState();
@@ -26,7 +28,8 @@ class _StoreNameState extends State<StoreName> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    DashbordController().deviceList(setState: setState);
+
+    DashbordController().deviceList(personId: widget.userId, setState: setState);
   }
 
   @override
@@ -81,7 +84,7 @@ class _StoreNameState extends State<StoreName> {
                     width: scWidth / 3,
                     margin: EdgeInsets.only(top: scHeight / 15),
                     child: Text(
-                      profileModel.data?.first.name ?? '',
+                      profileModel.data?.name ?? '',
                       style: TextStyle(
                           color: blackColor,
                           fontSize: 24,

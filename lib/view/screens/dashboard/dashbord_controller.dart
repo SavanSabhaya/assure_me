@@ -13,7 +13,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:logger/logger.dart';
 import 'package:intl/intl.dart';
 
-
 DeviceListModel deviceListModel = DeviceListModel();
 NotificationModel notificationModel = NotificationModel();
 ChartDataModel chartDataModel = ChartDataModel();
@@ -22,15 +21,16 @@ class DashbordController {
   var preferences = MySharedPref();
   final apiReq = NetworkApiService();
 
-  deviceList({BuildContext? context, setState}) async {
+  deviceList({String? personId, BuildContext? context, setState}) async {
     String url = ApiConstant.BASE_URL + ApiConstant.devicelist;
 
     EasyLoading.show();
+    Map<String, dynamic> params = {"autorised_person_id": personId};
 
     await apiReq
         .getPostApiTokenResponse(
       url: url,
-      data: jsonEncode({}),
+      data: jsonEncode(params),
     )
         .then((value) async {
       try {
@@ -39,6 +39,7 @@ class DashbordController {
             deviceListModel = DeviceListModel.fromJson(value);
           });
           Logger().d('get code==>$value');
+          Logger().d('get code body==>$params');
           EasyLoading.dismiss().then((value) {});
         }
       } catch (e) {
@@ -142,8 +143,7 @@ class DashbordController {
             print('get code==>chart data $value');
             for (int i = 0; i < chartDataModel.temperatureList!.length; i++) {
               chartData.add(ChartData(
-                  DateFormat('HH:mm')
-                      .format(chartDataModel.createdAtList![i]),
+                  DateFormat('HH:mm').format(chartDataModel.createdAtList![i]),
                   double.parse(chartDataModel.temperatureList![i].toString())));
             }
           });

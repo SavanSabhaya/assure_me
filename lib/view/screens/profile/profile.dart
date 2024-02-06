@@ -81,7 +81,7 @@ class _ProfileState extends State<Profile> {
                         textAlign: TextAlign.left,
                       ),
                       Text(
-                        profileModel?.data?.first.name ?? '',
+                        profileModel?.data?.name ?? '',
                         style: TextStyle(
                             color: blackColor,
                             fontSize: 28,
@@ -116,11 +116,11 @@ class _ProfileState extends State<Profile> {
                                         MaterialPageRoute(
                                             builder: (context) => ProfileEdit(
                                                   firstname: profileModel
-                                                      .data?.first.name,
+                                                      .data?.name,
                                                   lastname: profileModel
-                                                      .data?.first.username,
+                                                      .data?.username,
                                                   email: profileModel
-                                                      .data?.first.email,
+                                                      .data?.email,
                                                 ))).then((value) {
                                       setState(() {
                                         ProfileController()

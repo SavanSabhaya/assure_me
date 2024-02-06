@@ -1,5 +1,7 @@
 class ApiConstant {
-  static const String BASE_URL = 'https://assureme.co.za/assureme/';
+  // static const String BASE_URL = 'https://assureme.co.za/assureme/';
+  static const String BASE_URL = 'https://assureme.co.za/new-assureme/';
+
 
   static const String login = 'api/login';
   static const String logout = 'api/logout';

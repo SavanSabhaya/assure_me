@@ -110,7 +110,7 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                       width: scWidth / 3,
                       margin: EdgeInsets.only(top: scHeight / 15),
                       child: Text(
-                        profileModel.data?.first.name ?? '',
+                        profileModel.data?.name ?? '',
                         style: TextStyle(
                             color: blackColor,
                             fontSize: lgFontSize,
@@ -132,7 +132,7 @@ class _StoreNameDetailState extends State<StoreNameDetail> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              profileModel.data?.first.name ?? '',
+                              profileModel.data?.name ?? '',
                               style: TextStyle(
                                   color: blackColor,
                                   fontSize: lgFontSize,
