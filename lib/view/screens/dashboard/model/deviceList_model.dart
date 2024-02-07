@@ -28,7 +28,7 @@ class DeviceListModel {
         success: json["success"],
         statusCode: json["status_code"],
         message: json["message"],
-        data: json["data"] == null
+        data: json["data"] == null || json["data"] == []
             ? []
             : List<DatumTemp>.from(
                 json["data"]!.map((x) => DatumTemp.fromJson(x))),
@@ -51,6 +51,8 @@ class DatumTemp {
   String? deviceName;
   String? deviceMaxTemperature;
   String? deviceMinTemperature;
+  int? deviceAlarm;
+  int? autorisedPerson;
   dynamic? status;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -63,6 +65,8 @@ class DatumTemp {
     this.deviceName,
     this.deviceMaxTemperature,
     this.deviceMinTemperature,
+    this.deviceAlarm,
+    this.autorisedPerson,
     this.status,
     this.createdAt,
     this.updatedAt,
@@ -76,6 +80,8 @@ class DatumTemp {
         deviceName: json["device_name"],
         deviceMaxTemperature: json["device_max_Temperature"],
         deviceMinTemperature: json["device_min_Temperature"],
+        deviceAlarm: json["device_alarm"],
+        autorisedPerson: json["autorised_person"],
         status: json['status'],
         createdAt: json["created_at"] == null
             ? null
@@ -93,6 +99,8 @@ class DatumTemp {
         "device_name": deviceName,
         "device_max_Temperature": deviceMaxTemperature,
         "device_min_Temperature": deviceMinTemperature,
+        "device_alarm": deviceAlarm,
+        "autorised_person": autorisedPerson,
         "status": status,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),

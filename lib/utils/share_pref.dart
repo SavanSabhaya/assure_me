@@ -22,7 +22,7 @@ class SharePreData {
 //main methods for api
 class NetworkApiService {
   var preferences = MySharedPref();
-  
+
   @override
   Future getGetApiResponse(String url) async {
     dynamic responseJson;
@@ -93,6 +93,8 @@ class NetworkApiService {
   }) async {
     var token = await preferences.getStringValue(SharePreData.keytoken);
     print('post api in token is ==>>>>$token');
+    print('post api in url ==>>>>$url');
+
     Map<String, String> header = <String, String>{};
     header.addAll({
       'Content-Type': 'application/json',

@@ -47,14 +47,20 @@ class _EditValuesState extends State<EditValues> {
   }
 
   Future<void> editValuesApi(
-      {String? deviceId, String? maxtemp, String? minTemp}) async {
+      {String? deviceId,
+      String? autorisedId,
+      String? maxtemp,
+      String? minTemp}) async {
     String url = ApiConstant.BASE_URL + ApiConstant.temperatureUpdate;
     final Map<String, dynamic> bodyParams = {
       "device_id": deviceId,
       "device_max": maxtemp,
-      "device_min": minTemp
+      "device_min": minTemp,
+      "autorised_person_id": autorisedId,
     };
     EasyLoading.show();
+    print('temp edit bodyParams===>${bodyParams}');
+    print('temp edit url===>${url}');
     final http.Response response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
@@ -364,7 +370,10 @@ class _EditValuesState extends State<EditValues> {
                                           deviceId:
                                               widget.data?.deviceId.toString(),
                                           maxtemp: maxTempController.text,
-                                          minTemp: minTempController.text);
+                                          minTemp: minTempController.text,
+                                          autorisedId: widget
+                                              .data?.autorisedPerson
+                                              .toString());
                                     }
                                   },
                                   child: Text(

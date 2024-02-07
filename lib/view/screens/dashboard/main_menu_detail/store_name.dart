@@ -29,7 +29,8 @@ class _StoreNameState extends State<StoreName> {
     // TODO: implement initState
     super.initState();
 
-    DashbordController().deviceList(personId: widget.userId, setState: setState);
+    DashbordController()
+        .deviceList(personId: widget.userId, setState: setState);
   }
 
   @override
@@ -94,23 +95,45 @@ class _StoreNameState extends State<StoreName> {
                   ),
                 ],
               ),
-              Container(
-                margin: EdgeInsets.only(top: scHeight / 25),
-                height: scHeight / 1.5,
-                child: SingleChildScrollView(
-                    child: ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return AlertCard(deviceListModel.data?[index]);
-                  },
-                  itemCount: deviceListModel.data?.length ?? 0,
-                )),
-              )
+              deviceListModel.statusCode == 101
+                  ? Expanded(
+                      child: Center(
+                        child: Text(
+                          'No device Found',
+                          style: TextStyle(
+                              color: blackColor,
+                              fontSize: lgFontSize,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      margin: EdgeInsets.only(top: scHeight / 25),
+                      height: scHeight / 1.5,
+                      child: SingleChildScrollView(
+                          child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: deviceListModel.data?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          return AlertCard(deviceListModel.data?[index]);
+                        },
+                      )),
+                    )
             ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    deviceListModel.data?.clear();
+    setState(() {
+      deviceListModel.statusCode = null;
+    });
+
+    super.dispose();
   }
 }
 

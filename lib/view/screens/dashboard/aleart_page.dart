@@ -51,24 +51,24 @@ class _AlertsPageState extends State<AlertsPage> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: ListView.builder(
-          physics: AlwaysScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: notificationModel.data?.length ?? 0,
-          itemBuilder: (context, index) {
-            return notificationModel.statusCode != 200
-                ? Center(
-                    child: Text(
-                      'No Alerts Found',
-                      style: TextStyle(
-                          color: blackColor,
-                          fontSize: lgFontSize,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                : AlertCard(notificationModel.data![index]);
-          },
-        ),
+        child: notificationModel.statusCode == 101
+            ? Center(
+                child: Text(
+                  'No Alerts Found',
+                  style: TextStyle(
+                      color: blackColor,
+                      fontSize: lgFontSize,
+                      fontWeight: FontWeight.bold),
+                ),
+              )
+            : ListView.builder(
+                physics: AlwaysScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: notificationModel.data?.length ?? 0,
+                itemBuilder: (context, index) {
+                  return AlertCard(notificationModel.data![index]);
+                },
+              ),
       ),
     );
   }
@@ -171,8 +171,10 @@ class AlertCard extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                data.message .toString(),
-                                maxLines: 3,softWrap: true,overflow: TextOverflow.ellipsis,
+                                data.message.toString(),
+                                maxLines: 3,
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     color: dfColor,
                                     fontSize: dfFontSize,

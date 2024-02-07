@@ -41,6 +41,11 @@ class DashbordController {
           Logger().d('get code==>$value');
           Logger().d('get code body==>$params');
           EasyLoading.dismiss().then((value) {});
+        } else if (value['status_code'] == 101) {
+          setState(() {
+            deviceListModel = DeviceListModel.fromJson(value);
+          });
+          EasyLoading.dismiss();
         }
       } catch (e) {
         print(e);
@@ -54,7 +59,7 @@ class DashbordController {
 
     EasyLoading.show();
     Map<dynamic, dynamic> data = {
-      "device_id": deviceId,
+      "autorised_person_id": deviceId,
       "device_max": maxtemp,
       "device_min": minTemp
     };

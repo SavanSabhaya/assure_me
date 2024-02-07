@@ -56,20 +56,35 @@ class _MainMenuState extends State<MainMenu> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: scHeight / 25),
-                height: scHeight / 1.5,
-                child: SingleChildScrollView(
-                    child: /* Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (context, i) {
-                      return AlertCard();
-                    },
-                    itemCount: profileModel.data?.subuser?.length ?? 0,
-                    shrinkWrap: true,
+              Visibility(
+                visible: profileModel.data?.subUsers?.length == 0
+                    ? false
+                    : true ?? false,
+                child: Container(
+                  // width: scWidth,
+                  margin: EdgeInsets.only(top: 20),
+                  child: Text(
+                    "Store name :${profileModel.data?.name ?? ""}",
+                    style: TextStyle(
+                        color: blackColor,
+                        fontSize: lgFontSize,
+                        fontWeight: FontWeight.w400),
+                    textAlign: TextAlign.center,
                   ),
-                )*/
-                        AlertCard()),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 15),
+                height: scHeight / 1.5,
+                child: ListView.builder(
+                  itemBuilder: (context, i) {
+                    return AlertCard(index: i);
+                  },
+                  itemCount: profileModel.data?.subUsers?.length == 0
+                      ? 1
+                      : profileModel.data?.subUsers?.length ?? 0,
+                  shrinkWrap: true,
+                ),
               )
             ],
           ),
@@ -80,52 +95,57 @@ class _MainMenuState extends State<MainMenu> {
 }
 
 class AlertCard extends StatelessWidget {
-  int? index;
-  AlertCard({super.key, this.index});
+  int index;
+  AlertCard({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
     double scWidth = MediaQuery.of(context).size.width;
     double scHeight = MediaQuery.of(context).size.height;
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => StoreName(
-                      userId: profileModel.data?.subuser != []
-                          ? profileModel.data?.subuser?.first.id.toString()
-                          : '',
-                    )));
-      },
-      style: ElevatedButton.styleFrom(
-          elevation: 0,
-          padding: EdgeInsets.all(0),
-          backgroundColor: Colors.transparent,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-      child: Container(
-        padding: EdgeInsets.all(20),
-        width: scWidth,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => StoreName(
+                        userId: profileModel.data?.subUsers?.length != 0
+                            ? profileModel.data?.subUsers![index].id.toString()
+                            : profileModel.data?.id.toString(),
+                      )));
+        },
+        style: ElevatedButton.styleFrom(
+            elevation: 0,
+            padding: EdgeInsets.all(0),
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20))),
+        child: Container(
+          padding: EdgeInsets.all(20),
+          width: scWidth,
 
-        // height: scHeight / ,
-        decoration: BoxDecoration(
-            color: appcolor, borderRadius: BorderRadius.circular(20)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              profileModel.data?.name ?? '',
-              style: TextStyle(
-                  color: dfColor,
-                  fontSize: exLgFontSize,
-                  fontWeight: FontWeight.w700),
-            ),
-            Icon(
-              Icons.arrow_outward_rounded,
-              color: dfColor,
-            )
-          ],
+          // height: scHeight / ,
+          decoration: BoxDecoration(
+              color: appcolor, borderRadius: BorderRadius.circular(20)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                profileModel.data?.subUsers?.length == 0
+                    ? profileModel.data?.name.toString() ?? ''
+                    : profileModel.data?.subUsers?[index].name.toString() ?? '',
+                style: TextStyle(
+                    color: dfColor,
+                    fontSize: exLgFontSize,
+                    fontWeight: FontWeight.w700),
+              ),
+              Icon(
+                Icons.arrow_outward_rounded,
+                color: dfColor,
+              )
+            ],
+          ),
         ),
       ),
     );
