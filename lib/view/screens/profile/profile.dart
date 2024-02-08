@@ -33,7 +33,7 @@ class _ProfileState extends State<Profile> {
     super.initState();
 
     setState(() {
-      ProfileController().profile(setState: setState);
+      ProfileController().profile(context:  context, setState: setState);
     });
   }
 
@@ -124,7 +124,7 @@ class _ProfileState extends State<Profile> {
                                                 ))).then((value) {
                                       setState(() {
                                         ProfileController()
-                                            .profile(setState: setState);
+                                            .profile(context:  context, setState: setState);
                                       });
                                     });
                                   },

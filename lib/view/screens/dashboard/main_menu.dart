@@ -25,7 +25,7 @@ class _MainMenuState extends State<MainMenu> {
     // TODO: implement initState
     super.initState();
     setState(() {
-      ProfileController().profile(setState: setState);
+      ProfileController().profile( context:  context, setState: setState);
     });
   }
 

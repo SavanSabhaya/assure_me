@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:assure_me/api_%20service/api_constant.dart';
+import 'package:assure_me/constant.dart';
 import 'package:assure_me/routes/routes.dart';
 import 'package:assure_me/utils/prefrence_utils.dart';
 import 'package:assure_me/utils/share_pref.dart';
@@ -36,6 +37,28 @@ class ProfileController {
           });
           Logger().d('get code==>$value');
           EasyLoading.dismiss().then((value) {});
+        } else if (value['status_code'] == 403) {
+          EasyLoading.dismiss().then((value) {});
+         /*   Navigator.pushNamedAndRemoveUntil(
+                      context!, AppRoutes.login, (route) => false);
+                  setState(() {
+                    preferences.clear();
+                  }); */
+          showDialog(
+            barrierDismissible: false,
+            context: context!,
+            builder: (BuildContext context) {
+              return TokenExpiredDialog(
+                onRedirectToLogin: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, AppRoutes.login, (route) => false);
+                  setState(() {
+                    preferences.clear();
+                  });
+                },
+              );
+            },
+          );
         }
       } catch (e) {
         print(e);

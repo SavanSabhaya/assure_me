@@ -77,3 +77,29 @@ const shimmerGradient = LinearGradient(
   end: Alignment(1.0, 0.3),
   tileMode: TileMode.clamp,
 );
+
+
+
+
+class TokenExpiredDialog extends StatelessWidget {
+  final VoidCallback onRedirectToLogin;
+
+  TokenExpiredDialog({required this.onRedirectToLogin});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("Alert"),
+      content: Text("Your session has expired. Please log in again."),
+      actions: <Widget>[
+        TextButton(
+          child: Text("OK"),
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the alert dialog
+            onRedirectToLogin(); // Redirect to login page
+          },
+        ),
+      ],
+    );
+  }
+}

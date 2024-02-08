@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    ProfileController().profile(setState: setState);
+    ProfileController().profile(context:  context, setState: setState);
     ProfileController().deviceList(context: context ,setState: setState);
     // getOfflineAleart();
   }
