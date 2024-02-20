@@ -17,4 +17,6 @@ class ApiConstant {
   static const String notification = 'api/Notification';
   static const String chartReport = 'api/chart-Report';
   static const String offlineNotification = 'api/Offline-notification';
+  static const String deviceList12 = 'api/Device-list';
+
 }

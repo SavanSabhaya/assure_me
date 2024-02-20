@@ -39,7 +39,7 @@ class ProfileController {
           EasyLoading.dismiss().then((value) {});
         } else if (value['status_code'] == 403) {
           EasyLoading.dismiss().then((value) {});
-         /*   Navigator.pushNamedAndRemoveUntil(
+          /*   Navigator.pushNamedAndRemoveUntil(
                       context!, AppRoutes.login, (route) => false);
                   setState(() {
                     preferences.clear();
@@ -126,7 +126,7 @@ class ProfileController {
   DeviceListModel deviceListModel = DeviceListModel();
 
   deviceList({BuildContext? context, setState}) async {
-    String url = ApiConstant.BASE_URL + ApiConstant.devicelist;
+    String url = ApiConstant.BASE_URL + ApiConstant.deviceList12;
 
     EasyLoading.show();
 
@@ -145,7 +145,15 @@ class ProfileController {
             for (var i = 0; i < deviceListModel.data!.length; i++) {
               print('get data 3===>');
 
-              if (deviceListModel.data?[i].status == 0) {
+              if (deviceListModel.data?[i].status == 0 ||
+                  double.parse(deviceListModel.data![i].deviceMaxTemperature
+                          .toString()) <
+                      double.parse(deviceListModel.data![i].device!.temperature
+                          .toString()) ||
+                  double.parse(deviceListModel.data![i].deviceMinTemperature
+                          .toString()) >
+                      double.parse(deviceListModel.data![i].device!.temperature
+                          .toString())) {
                 print('get data 4===>');
 
                 showDialog(
@@ -153,15 +161,42 @@ class ProfileController {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: Text("Alert"),
-                      content: Text(
-                          "The ${deviceListModel.data?[i].deviceName} is offline at the moment."),
+                      content: Text(double.parse(deviceListModel
+                                  .data![i].deviceMinTemperature
+                                  .toString()) >
+                              double.parse(deviceListModel
+                                  .data![i].device!.temperature
+                                  .toString())
+                          ? 'The ${deviceListModel.data?[i].deviceName} minimum temprature is low.'
+                          : double.parse(deviceListModel.data![i].deviceMaxTemperature
+                                      .toString()) <
+                                  double.parse(deviceListModel
+                                      .data![i].device!.temperature
+                                      .toString())
+                              ? 'The ${deviceListModel.data?[i].deviceName} maximun temprature is high.'
+                              : "The ${deviceListModel.data?[i].deviceName} is offline at the moment."),
                       actions: [
                         TextButton(
                           onPressed: () {
-                            offlineNotificationApi(
-                                deviceListModel.data?[i].deviceId ?? '',
-                                context: context,
-                                setState: setState);
+                            double.parse(deviceListModel.data![i].deviceMinTemperature.toString()) >
+                                    double.parse(deviceListModel.data![i].device!.temperature
+                                        .toString())
+                                ? offlineNotificationApi(
+                                    deviceListModel.data?[i].deviceId ?? '', 'The ${deviceListModel.data?[i].deviceName} minimum temprature is low ${profileModel.data?.name.toString()} Acknowledgement',
+                                    context: context, setState: setState)
+                                : double.parse(deviceListModel.data![i].deviceMaxTemperature.toString()) <
+                                        double.parse(deviceListModel.data![i].device!.temperature
+                                            .toString())
+                                    ? offlineNotificationApi(
+                                        deviceListModel.data?[i].deviceId ?? '',
+                                        'The ${deviceListModel.data?[i].deviceName} & maximun temprature is high ${profileModel.data?.name.toString()} Acknowledgement',
+                                        context: context,
+                                        setState: setState)
+                                    : offlineNotificationApi(
+                                        deviceListModel.data?[i].deviceId ?? '',
+                                        'The ${deviceListModel.data?[i].deviceName} & ${profileModel.data?.name.toString()} Acknowledgement',
+                                        context: context,
+                                        setState: setState);
                           },
                           child: Text("OK"),
                         ),
@@ -182,12 +217,12 @@ class ProfileController {
   }
 
   OfflineNotification offlineNotification = OfflineNotification();
-  offlineNotificationApi(String deviceId,
+  offlineNotificationApi(String deviceId, String sendMessage,
       {BuildContext? context, setState}) async {
     String url = ApiConstant.BASE_URL + ApiConstant.offlineNotification;
 
     EasyLoading.show();
-    Map<String, String> data = {"device_id": deviceId};
+    Map<String, String> data = {"device_id": deviceId, "message": sendMessage};
     await apiReq
         .getPostApiTokenResponse(
       url: url,
