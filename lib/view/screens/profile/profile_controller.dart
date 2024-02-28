@@ -8,6 +8,7 @@ import 'package:assure_me/utils/share_pref.dart';
 import 'package:assure_me/view/screens/dashboard/model/deviceList_model.dart';
 import 'package:assure_me/view/screens/profile/model/offline_notification_model.dart';
 import 'package:assure_me/view/screens/profile/model/profile_model.dart';
+import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:logger/logger.dart';
@@ -145,15 +146,17 @@ class ProfileController {
             for (var i = 0; i < deviceListModel.data!.length; i++) {
               print('get data 3===>');
 
-              if (deviceListModel.data?[i].status == 0 ||
-                  double.parse(deviceListModel.data![i].deviceMaxTemperature
-                          .toString()) <
-                      double.parse(deviceListModel.data![i].device!.temperature
-                          .toString()) ||
-                  double.parse(deviceListModel.data![i].deviceMinTemperature
-                          .toString()) >
-                      double.parse(deviceListModel.data![i].device!.temperature
-                          .toString())) {
+              var deviceData = deviceListModel.data![i].device!;
+              var deviceName = deviceListModel.data![i].deviceName;
+              var minTemp = double.parse(
+                  deviceListModel.data![i].deviceMinTemperature.toString());
+              var maxTemp = double.parse(
+                  deviceListModel.data![i].deviceMaxTemperature.toString());
+              var currentTemp = double.parse(deviceData.temperature.toString());
+
+              if (deviceListModel.data![i].status == 0 ||
+                  currentTemp < minTemp ||
+                  currentTemp > maxTemp) {
                 print('get data 4===>');
 
                 showDialog(
@@ -161,42 +164,35 @@ class ProfileController {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: Text("Alert"),
-                      content: Text(double.parse(deviceListModel
-                                  .data![i].deviceMinTemperature
-                                  .toString()) >
-                              double.parse(deviceListModel
-                                  .data![i].device!.temperature
-                                  .toString())
-                          ? 'The ${deviceListModel.data?[i].deviceName} minimum temprature is low.'
-                          : double.parse(deviceListModel.data![i].deviceMaxTemperature
-                                      .toString()) <
-                                  double.parse(deviceListModel
-                                      .data![i].device!.temperature
-                                      .toString())
-                              ? 'The ${deviceListModel.data?[i].deviceName} maximun temprature is high.'
-                              : "The ${deviceListModel.data?[i].deviceName} is offline at the moment."),
+                      content: Text(
+                        deviceListModel.data![i].status == 0
+                            ? "The $deviceName is offline at the moment."
+                            : currentTemp < minTemp
+                                ? 'The $deviceName minimum temperature is low.'
+                                : 'The $deviceName maximum temperature is high.',
+                      ),
                       actions: [
                         TextButton(
                           onPressed: () {
-                            double.parse(deviceListModel.data![i].deviceMinTemperature.toString()) >
-                                    double.parse(deviceListModel.data![i].device!.temperature
-                                        .toString())
-                                ? offlineNotificationApi(
-                                    deviceListModel.data?[i].deviceId ?? '', 'The ${deviceListModel.data?[i].deviceName} minimum temprature is low ${profileModel.data?.name.toString()} Acknowledgement',
-                                    context: context, setState: setState)
-                                : double.parse(deviceListModel.data![i].deviceMaxTemperature.toString()) <
-                                        double.parse(deviceListModel.data![i].device!.temperature
-                                            .toString())
-                                    ? offlineNotificationApi(
-                                        deviceListModel.data?[i].deviceId ?? '',
-                                        'The ${deviceListModel.data?[i].deviceName} & maximun temprature is high ${profileModel.data?.name.toString()} Acknowledgement',
-                                        context: context,
-                                        setState: setState)
-                                    : offlineNotificationApi(
-                                        deviceListModel.data?[i].deviceId ?? '',
-                                        'The ${deviceListModel.data?[i].deviceName} & ${profileModel.data?.name.toString()} Acknowledgement',
-                                        context: context,
-                                        setState: setState);
+                            String message = '';
+                            setState(() {
+                              if (deviceListModel.data![i].status == 0) {
+                                message =
+                                    'The $deviceName ${profileModel.data?.name} Acknowledgement';
+                              } else if (currentTemp < minTemp) {
+                                message =
+                                    'The $deviceName minimum temperature is low. ${profileModel.data?.name.toString()} Acknowledgement';
+                              } else if (currentTemp > maxTemp) {
+                                message =
+                                    'The $deviceName maximum temperature is high. ${profileModel.data?.name.toString()} Acknowledgement';
+                              }
+
+                              offlineNotificationApi(
+                                  deviceListModel.data![i].deviceId ?? '',
+                                  message,
+                                  context: context,
+                                  setState: setState);
+                            });
                           },
                           child: Text("OK"),
                         ),
@@ -239,6 +235,8 @@ class ProfileController {
           EasyLoading.dismiss().then((value) {
             Navigator.of(context!).pop();
           });
+        } else if (value['status_code'] == 500) {
+          awesomeTopSnackbar(context!, 'Somting went wrong!');
         }
       } catch (e) {
         EasyLoading.dismiss();
