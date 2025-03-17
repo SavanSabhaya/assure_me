@@ -60,7 +60,9 @@ class MyApp extends StatelessWidget {
       routes: AppRoutes.routes,
       builder: EasyLoading.init(),
       initialRoute: AppRoutes.splash,
-      // home: LogIn(),
     );
   }
 }
+
+
+// to learn github and git
